@@ -3,946 +3,834 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#6c63ff">
+  <meta name="theme-color" content="#5b52e8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Y nebo I">
-  <meta name="description" content="Procvičování tvrdých a měkkých Y/I pro 2. a 3. třídu">
   <link rel="manifest" href="manifest.json">
   <title>Tvrdé a měkké Y/I</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
 
     :root {
-      --primary: #6c63ff;
-      --success: #2ecc71;
-      --danger: #e74c3c;
-      --warning: #ffd43b;
-      --safe-top: env(safe-area-inset-top, 0px);
+      --primary: #5b52e8;
+      --primary-light: #8b84f5;
+      --success: #27ae60;
+      --danger:  #e74c3c;
+      --warn:    #f39c12;
+      --safe-top:    env(safe-area-inset-top,    0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *, *::before, *::after {
+      box-sizing: border-box; margin: 0; padding: 0;
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
     }
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
+    html { height: 100%; }
 
     body {
       font-family: 'Nunito', sans-serif;
       background: linear-gradient(160deg, #667eea 0%, #764ba2 100%);
       background-attachment: fixed;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+      min-height: 100%;
       padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
     }
 
-    /* ===== WRAPPER ===== */
-    #app {
-      width: 100%;
-      max-width: 480px;
-      height: 100dvh;
-      height: calc(100vh - var(--safe-top));
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* ===== SCREENS ===== */
-    .screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-    }
+    /* ── SCREENS ── */
+    .screen { display: none; min-height: 100svh; flex-direction: column; align-items: center; }
     .screen.active { display: flex; }
 
-    .screen-inner {
-      width: 100%;
-      padding: 20px 16px calc(20px + var(--safe-bottom));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100%;
+    .page {
+      width: 100%; max-width: 480px;
+      padding: 20px 16px 32px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px; flex: 1;
     }
 
-    /* ===== KARTY ===== */
+    /* ── CARD ── */
     .card {
-      background: white;
-      border-radius: 28px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.18);
-      width: 100%;
-      padding: 28px 22px;
+      background: #fff; border-radius: 24px;
+      box-shadow: 0 10px 36px rgba(0,0,0,.15);
+      padding: 24px 20px; width: 100%;
     }
 
-    /* ===== TLAČÍTKA ===== */
-    button {
-      touch-action: manipulation;
-      -webkit-user-select: none;
-      user-select: none;
-      cursor: pointer;
-      font-family: 'Nunito', sans-serif;
-    }
+    /* ── BUTTONS ── */
+    button { touch-action: manipulation; font-family: 'Nunito', sans-serif; cursor: pointer; border: none; }
 
-    .btn-primary {
-      width: 100%;
-      padding: 18px;
-      background: linear-gradient(135deg, #6c63ff, #9c91ff);
-      color: white;
-      border: none;
-      border-radius: 18px;
-      font-size: 1.2rem;
-      font-weight: 900;
-      box-shadow: 0 6px 20px rgba(108,99,255,.4);
+    .btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; min-height: 56px; border-radius: 16px;
+      font-size: 1.1rem; font-weight: 900;
       transition: transform .1s, box-shadow .1s;
-      min-height: 58px;
     }
-    .btn-primary:active { transform: scale(.97); box-shadow: 0 3px 10px rgba(108,99,255,.4); }
-
-    .btn-secondary {
-      flex: 1;
-      padding: 16px;
-      background: #f0eeff;
-      color: var(--primary);
-      border: none;
-      border-radius: 16px;
-      font-size: 1rem;
-      font-weight: 900;
-      min-height: 54px;
-      transition: background .1s;
+    .btn:active { transform: scale(.96); }
+    .btn-purple {
+      background: linear-gradient(135deg, #5b52e8, #9b93ff);
+      color: #fff; box-shadow: 0 5px 18px rgba(91,82,232,.4);
     }
-    .btn-secondary:active { background: #ddd9ff; }
+    .btn-purple:active { box-shadow: 0 2px 8px rgba(91,82,232,.3); }
+    .btn-soft { background: #eeecff; color: var(--primary); }
+    .btn-ghost { background: none; color: #fff; font-weight: 800; font-size: 1rem; min-height: 44px; opacity: .9; }
 
-    .btn-ghost {
-      background: none;
-      border: none;
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 12px;
-      min-height: 44px;
+    /* ── INPUT ── */
+    .inp {
+      width: 100%; padding: 14px 18px;
+      border: 2.5px solid #ddd; border-radius: 14px;
+      font-size: 16px; font-family: 'Nunito', sans-serif; font-weight: 700;
+      text-align: center; outline: none; transition: border-color .2s;
     }
+    .inp:focus { border-color: var(--primary); }
 
-    /* ===== UVÍTACÍ OBRAZOVKA ===== */
-    #screen-welcome .screen-inner {
-      justify-content: center;
-      gap: 0;
-    }
+    /* ══════════════════════════════════════
+       WELCOME
+    ══════════════════════════════════════ */
+    #screen-welcome .page { justify-content: center; padding-top: 12px; }
 
-    .logo { font-size: 72px; text-align: center; margin-bottom: 4px; }
+    .logo { font-size: 68px; }
+    .welcome-title { font-size: 1.85rem; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.2); }
+    .welcome-sub   { font-size: .9rem; color: rgba(255,255,255,.75); }
 
-    .welcome-title {
-      font-size: 1.9rem;
-      font-weight: 900;
-      color: white;
-      text-align: center;
-      text-shadow: 0 2px 8px rgba(0,0,0,.2);
-      margin-bottom: 4px;
-    }
-    .welcome-sub {
-      font-size: .95rem;
-      color: rgba(255,255,255,.8);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .name-input {
-      width: 100%;
-      padding: 16px 20px;
-      border: 3px solid #e0e0e0;
-      border-radius: 16px;
-      font-size: 16px; /* 16px prevents iOS zoom */
-      font-family: 'Nunito', sans-serif;
-      font-weight: 700;
-      text-align: center;
-      outline: none;
-      transition: border-color .2s;
-      margin-bottom: 16px;
-    }
-    .name-input:focus { border-color: var(--primary); }
-
-    .diff-label {
-      font-weight: 700;
-      color: #555;
-      margin-bottom: 10px;
-      align-self: flex-start;
-      font-size: .95rem;
-    }
-
-    .difficulty-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
+    .diff-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; }
     .diff-btn {
-      padding: 14px 8px;
-      border: 3px solid #e0e0e0;
-      border-radius: 16px;
-      font-size: .9rem;
-      font-weight: 700;
-      background: white;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; padding: 14px 6px; min-height: 72px;
+      border: 2.5px solid #ddd; border-radius: 16px;
+      background: #fff; font-size: .88rem; font-weight: 800;
       transition: border-color .15s, background .15s;
-      min-height: 72px;
+      touch-action: manipulation; cursor: pointer; font-family: 'Nunito', sans-serif;
     }
-    .diff-btn:active { transform: scale(.97); }
-    .diff-btn.selected { border-color: var(--primary); background: #f0eeff; color: var(--primary); }
-    .diff-btn span { display: block; font-size: 1.5rem; margin-bottom: 4px; }
+    .diff-btn:active { transform: scale(.96); }
+    .diff-btn .em { font-size: 1.5rem; }
+    .diff-btn.on { border-color: var(--primary); background: #eeecff; color: var(--primary); }
 
-    /* ===== HERNÍ OBRAZOVKA ===== */
-    #screen-game {
-      background: transparent;
-      overflow: hidden;
-    }
-    #screen-game .screen-inner {
-      padding: 12px 12px calc(12px + var(--safe-bottom));
-      gap: 10px;
-      height: 100%;
-      overflow-y: auto;
-      justify-content: flex-start;
-    }
+    /* ══════════════════════════════════════
+       GAME
+    ══════════════════════════════════════ */
+    #screen-game .page { padding-top: 12px; gap: 10px; }
 
-    .game-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255,255,255,.18);
-      backdrop-filter: blur(8px);
+    .hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255,255,255,.18); backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border-radius: 18px;
-      padding: 10px 18px;
-      width: 100%;
-      color: white;
+      border-radius: 16px; padding: 10px 18px; width: 100%; color: #fff;
     }
+    .hdr-stat .lbl { font-size: .65rem; opacity: .8; text-transform: uppercase; letter-spacing: .8px; }
+    .hdr-stat .val { font-size: 1.35rem; font-weight: 900; line-height: 1.2; }
 
-    .stat-box { text-align: center; }
-    .stat-box .label { font-size: .7rem; opacity: .8; text-transform: uppercase; letter-spacing: .8px; }
-    .stat-box .value { font-size: 1.4rem; font-weight: 900; line-height: 1.2; }
+    .prog-wrap { width: 100%; height: 8px; background: rgba(255,255,255,.25); border-radius: 99px; overflow: hidden; }
+    .prog-fill  { height: 100%; background: #ffd43b; border-radius: 99px; transition: width .4s; }
 
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      background: rgba(255,255,255,.25);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--warning);
-      border-radius: 99px;
-      transition: width .4s;
-    }
-
-    .question-card {
-      background: white;
-      border-radius: 26px;
-      padding: 24px 20px 20px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 12px 36px rgba(0,0,0,.15);
-      animation: slideIn .25s ease;
-    }
+    /* question card */
+    .q-card { text-align: center; padding: 22px 18px 18px; position: relative; overflow: hidden; }
 
     .q-badge {
-      display: inline-block;
-      background: #f0eeff;
-      color: var(--primary);
-      font-size: .8rem;
-      font-weight: 700;
-      padding: 5px 14px;
-      border-radius: 99px;
-      margin-bottom: 14px;
+      display: inline-block; background: #eeecff; color: var(--primary);
+      font-size: .78rem; font-weight: 800; padding: 4px 14px;
+      border-radius: 99px; margin-bottom: 12px;
     }
 
-    .q-text {
-      font-size: 2rem;
-      font-weight: 900;
-      color: #222;
-      margin-bottom: 6px;
-      line-height: 1.3;
+    .q-word {
+      font-size: 2.1rem; font-weight: 900; color: #1a1a2e; margin-bottom: 4px; line-height: 1.3;
       word-break: break-word;
     }
-    .q-text .blank {
-      display: inline-block;
-      min-width: 28px;
+    .q-word .gap {
+      display: inline-block; min-width: 28px;
       border-bottom: 4px solid var(--primary);
-      color: var(--primary);
-      padding: 0 3px;
+      color: var(--primary); padding: 0 2px;
     }
 
-    .q-hint {
-      font-size: .88rem;
-      color: #bbb;
-      margin-bottom: 20px;
-      min-height: 18px;
-    }
+    .q-sub { font-size: .85rem; color: #bbb; min-height: 18px; margin-bottom: 16px; }
 
-    /* Y / I tlačítka */
-    .yi-btns { display: flex; gap: 16px; justify-content: center; }
+    /* timer bar inside card */
+    .timer-wrap { width: 100%; height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
+    .timer-fill  { height: 100%; border-radius: 99px; transition: background .3s; background: #43e97b; }
+
+    /* Y / I buttons */
+    .yi-row { display: flex; gap: 14px; justify-content: center; }
     .yi-btn {
-      width: 130px;
-      height: 130px;
-      border-radius: 24px;
-      border: 4px solid #e8e8f0;
-      font-size: 3.2rem;
-      font-weight: 900;
-      background: white;
-      color: #333;
-      transition: border-color .1s, background .1s, transform .1s;
+      width: 130px; height: 130px; border-radius: 22px;
+      border: 3.5px solid #e0e0f0; font-size: 3.2rem; font-weight: 900;
+      background: #fff; color: #222;
+      transition: border-color .1s, background .1s; touch-action: manipulation;
+      font-family: 'Nunito', sans-serif;
     }
-    .yi-btn:active:not(:disabled) { transform: scale(.93); }
-    .yi-btn.correct { border-color: var(--success); background: #efffef; color: #1a6b3c; }
-    .yi-btn.wrong   { border-color: var(--danger);  background: #fff0f0; color: #a02020; }
+    .yi-btn:active:not(:disabled) { transform: scale(.92); }
+    .yi-btn.ok  { border-color: var(--success); background: #e8faf0; color: var(--success); }
+    .yi-btn.bad { border-color: var(--danger);  background: #fdf0ee; color: var(--danger); }
 
-    /* výběr ze slov */
-    .answers-grid { display: grid; gap: 10px; width: 100%; }
-    .answers-grid.two-col { grid-template-columns: 1fr 1fr; }
-    .answers-grid.one-col { grid-template-columns: 1fr; }
+    /* choice buttons */
+    .choice-grid { display: grid; gap: 10px; width: 100%; }
+    .choice-grid.cols2 { grid-template-columns: 1fr 1fr; }
+    .choice-grid.cols1 { grid-template-columns: 1fr; }
 
-    .answer-btn {
-      padding: 18px 12px;
-      border: 3px solid #e8e8f0;
-      border-radius: 16px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      background: white;
-      color: #333;
-      transition: border-color .1s, background .1s;
-      min-height: 58px;
-      line-height: 1.3;
+    .ch-btn {
+      padding: 16px 10px; border: 3px solid #e0e0f0; border-radius: 14px;
+      font-size: 1.05rem; font-weight: 800; background: #fff; color: #222;
+      min-height: 56px; line-height: 1.3;
+      transition: border-color .1s, background .1s; touch-action: manipulation;
+      font-family: 'Nunito', sans-serif;
     }
-    .answer-btn:active:not(:disabled) { transform: scale(.97); }
-    .answer-btn.correct { border-color: var(--success); background: #efffef; color: #1a6b3c; }
-    .answer-btn.wrong   { border-color: var(--danger);  background: #fff0f0; color: #a02020; }
-    .answer-btn:disabled { cursor: default; }
+    .ch-btn:active:not(:disabled) { transform: scale(.97); }
+    .ch-btn.ok  { border-color: var(--success); background: #e8faf0; color: var(--success); }
+    .ch-btn.bad { border-color: var(--danger);  background: #fdf0ee; color: var(--danger); }
+    .ch-btn:disabled { cursor: default; }
 
-    .feedback-msg {
-      margin-top: 14px;
-      font-size: .95rem;
-      font-weight: 700;
-      min-height: 22px;
-      line-height: 1.4;
+    .feedback {
+      margin-top: 12px; font-size: .92rem; font-weight: 800; min-height: 20px; line-height: 1.4;
     }
-    .feedback-msg.correct { color: #1a6b3c; }
-    .feedback-msg.wrong   { color: #a02020; }
+    .feedback.ok  { color: #1d8348; }
+    .feedback.bad { color: #c0392b; }
 
-    .streak-badge {
-      display: inline-flex;
-      align-items: center;
-      background: linear-gradient(135deg, #ffd43b, #ff922b);
-      color: white;
-      border-radius: 99px;
-      padding: 5px 14px;
-      font-size: .85rem;
-      font-weight: 900;
-      margin-top: 8px;
-      opacity: 0;
-      transition: opacity .3s;
+    .streak-pill {
+      display: inline-block; background: linear-gradient(135deg, #ffd43b, #ff922b);
+      color: #fff; border-radius: 99px; padding: 4px 14px;
+      font-size: .82rem; font-weight: 900; margin-top: 8px;
+      opacity: 0; transition: opacity .3s;
     }
-    .streak-badge.show { opacity: 1; }
+    .streak-pill.show { opacity: 1; }
 
-    /* ===== VÝSLEDKY ===== */
-    #screen-result .screen-inner { justify-content: center; gap: 0; }
+    /* ══════════════════════════════════════
+       RESULT
+    ══════════════════════════════════════ */
+    #screen-result { background: linear-gradient(160deg, #667eea 0%, #764ba2 100%); }
+    #screen-result .page { justify-content: center; gap: 16px; }
 
-    .result-emoji { font-size: 76px; text-align: center; display: block; margin-bottom: 6px; animation: bounce .9s infinite; }
-    .result-title { font-size: 2rem; font-weight: 900; color: white; text-align: center; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
-    .result-name  { font-size: 1rem; color: rgba(255,255,255,.75); text-align: center; margin-bottom: 20px; }
-    .stars        { font-size: 2.2rem; text-align: center; margin-bottom: 16px; }
+    .res-emoji { font-size: 80px; animation: bounce .9s infinite; }
+    .res-title { font-size: 2rem; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.2); }
+    .res-stars { font-size: 2rem; letter-spacing: 4px; }
 
-    .result-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    .result-stat {
-      background: white;
-      border-radius: 18px;
-      padding: 16px 8px;
-      text-align: center;
-      box-shadow: 0 4px 14px rgba(0,0,0,.1);
-    }
-    .result-stat .val { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
-    .result-stat .lbl { font-size: .75rem; color: #888; font-weight: 700; }
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; }
+    .res-box { background: #fff; border-radius: 18px; padding: 16px 8px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+    .res-box .v { font-size: 1.9rem; font-weight: 900; color: var(--primary); }
+    .res-box .l { font-size: .72rem; color: #999; font-weight: 800; margin-top: 2px; }
 
-    .btn-group { display: flex; gap: 12px; width: 100%; }
+    .save-section { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .save-section .inp { background: #fff; }
+    .save-section label { color: rgba(255,255,255,.85); font-weight: 800; font-size: .9rem; }
 
-    /* ===== TABULKA ===== */
-    #screen-leaderboard .screen-inner { padding-top: 16px; }
+    .btn-row { display: flex; gap: 10px; width: 100%; }
 
-    .lb-header {
-      font-size: 1.7rem;
-      font-weight: 900;
-      color: white;
-      text-align: center;
-      text-shadow: 0 2px 8px rgba(0,0,0,.2);
-      margin-bottom: 4px;
-    }
-    .lb-sub { font-size: .9rem; color: rgba(255,255,255,.75); text-align: center; margin-bottom: 18px; }
+    /* ══════════════════════════════════════
+       LEADERBOARD
+    ══════════════════════════════════════ */
+    #screen-leaderboard { background: linear-gradient(160deg, #667eea 0%, #764ba2 100%); }
+    #screen-leaderboard .page { padding-top: 16px; }
 
-    .leaderboard-list { width: 100%; margin-bottom: 16px; }
+    .lb-title { font-size: 1.7rem; font-weight: 900; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
+    .lb-sub   { font-size: .88rem; color: rgba(255,255,255,.7); }
 
-    .lb-item {
-      display: flex;
-      align-items: center;
-      padding: 13px 14px;
-      border-radius: 16px;
-      margin-bottom: 8px;
-      gap: 12px;
-    }
-    .lb-item.rank-1 { background: linear-gradient(135deg, #fff8d4, #ffe599); }
-    .lb-item.rank-2 { background: linear-gradient(135deg, #f2f2f2, #e0e0e0); }
-    .lb-item.rank-3 { background: linear-gradient(135deg, #ffeadb, #ffd2b0); }
-    .lb-item.rank-other { background: rgba(255,255,255,.9); }
+    .lb-list { width: 100%; display: flex; flex-direction: column; gap: 8px; }
 
-    .lb-rank { font-size: 1.3rem; font-weight: 900; min-width: 30px; text-align: center; }
-    .lb-name { flex: 1; font-weight: 700; font-size: .95rem; }
-    .lb-score { font-weight: 900; font-size: 1.05rem; color: var(--primary); white-space: nowrap; }
-    .lb-diff { font-size: .72rem; color: #999; font-weight: 600; }
+    .lb-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 16px;
+    }
+    .lb-row.r1 { background: linear-gradient(135deg, #fff7c0, #ffe566); }
+    .lb-row.r2 { background: linear-gradient(135deg, #efefef, #d8d8d8); }
+    .lb-row.r3 { background: linear-gradient(135deg, #fce8d5, #f5c59a); }
+    .lb-row.rx { background: rgba(255,255,255,.88); }
 
-    .empty-lb {
-      text-align: center;
-      color: rgba(255,255,255,.6);
-      padding: 32px 0;
-      font-size: 1rem;
-      font-weight: 600;
-    }
+    .lb-medal { font-size: 1.3rem; min-width: 30px; text-align: center; font-weight: 900; }
+    .lb-info  { flex: 1; }
+    .lb-name  { font-weight: 800; font-size: .95rem; }
+    .lb-meta  { font-size: .7rem; color: #999; font-weight: 700; }
+    .lb-pts   { font-weight: 900; font-size: 1.1rem; color: var(--primary); white-space: nowrap; }
 
-    /* ===== ANIMACE ===== */
-    @keyframes popIn {
-      from { transform: scale(.75); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-    @keyframes slideIn {
-      from { transform: translateY(18px); opacity: 0; }
-      to   { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-14px); }
-    }
-    @keyframes confettiFall {
-      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      25%      { transform: translateX(-6px); }
-      75%      { transform: translateX(6px); }
-    }
-    @keyframes pulse {
-      0%   { transform: scale(1); }
-      50%  { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
+    .lb-empty { text-align: center; color: rgba(255,255,255,.55); padding: 28px 0; font-weight: 700; }
+
+    /* ══════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════ */
+    @keyframes popIn  { from { transform:scale(.6); opacity:0 } to { transform:scale(1); opacity:1 } }
+    @keyframes slideUp{ from { transform:translateY(22px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    @keyframes shake  { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+    @keyframes confettiFall { to { transform:translateY(110vh) rotate(720deg); opacity:0 } }
+
+    .anim-popin  { animation: popIn .35s cubic-bezier(.175,.885,.32,1.275) both; }
+    .anim-slide  { animation: slideUp .3s ease both; }
+    .anim-shake  { animation: shake .3s; }
 
     .confetti-piece {
-      position: fixed;
-      width: 11px; height: 11px;
-      border-radius: 2px;
-      top: -20px;
-      animation: confettiFall linear forwards;
-      z-index: 999;
-      pointer-events: none;
+      position: fixed; width: 11px; height: 11px; border-radius: 3px; top: -20px;
+      animation: confettiFall linear forwards; z-index: 999; pointer-events: none;
     }
 
-    .anim-shake { animation: shake .3s; }
-    .anim-pulse { animation: pulse .3s; }
-
-    /* Malé obrazovky */
-    @media (max-height: 650px) {
-      .logo { font-size: 48px; }
-      .welcome-title { font-size: 1.5rem; }
-      .yi-btn { width: 100px; height: 100px; font-size: 2.6rem; }
-      .q-text { font-size: 1.6rem; }
+    /* ── responsive ── */
+    @media (max-height: 640px) {
+      .res-emoji { font-size: 54px; }
+      .res-title { font-size: 1.5rem; }
+      .yi-btn { width: 108px; height: 108px; font-size: 2.6rem; }
+      .q-word { font-size: 1.7rem; }
     }
     @media (max-width: 360px) {
-      .yi-btn { width: 110px; height: 110px; }
-      .q-text { font-size: 1.7rem; }
+      .yi-btn { width: 118px; height: 118px; }
     }
   </style>
 </head>
 <body>
-<div id="app">
 
-  <!-- ===== UVÍTACÍ OBRAZOVKA ===== -->
-  <div id="screen-welcome" class="screen active">
-    <div class="screen-inner">
-      <div class="logo">🦉</div>
-      <h1 class="welcome-title">Tvrdé a měkké Y/I</h1>
-      <p class="welcome-sub">Procvičování pro 2. a 3. třídu</p>
+<!-- ══════════ WELCOME ══════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="page">
+    <div class="logo">🦉</div>
+    <div class="welcome-title">Y nebo I?</div>
+    <div class="welcome-sub">Procvičování pro 2. a 3. třídu</div>
 
-      <div class="card" style="margin-bottom:16px;">
-        <input type="text" class="name-input" id="playerName"
-               placeholder="Jak se jmenuješ?" maxlength="20"
-               autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
-
-        <p class="diff-label">Vyber obtížnost:</p>
-        <div class="difficulty-grid">
-          <button class="diff-btn selected" data-diff="easy" onclick="selectDiff(this)">
-            <span>🐣</span>Lehká
-          </button>
-          <button class="diff-btn" data-diff="medium" onclick="selectDiff(this)">
-            <span>🦊</span>Střední
-          </button>
-          <button class="diff-btn" data-diff="hard" onclick="selectDiff(this)">
-            <span>🦅</span>Těžká
-          </button>
-        </div>
-
-        <button class="btn-primary" onclick="startGame()">▶&nbsp; Hrát!</button>
+    <div class="card" style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-weight:800;color:#555;font-size:.9rem;">Vyber obtížnost:</div>
+      <div class="diff-grid">
+        <button class="diff-btn on" data-diff="easy"   onclick="pickDiff(this)"><span class="em">🐣</span>Lehká</button>
+        <button class="diff-btn"    data-diff="medium" onclick="pickDiff(this)"><span class="em">🦊</span>Střední</button>
+        <button class="diff-btn"    data-diff="hard"   onclick="pickDiff(this)"><span class="em">🦅</span>Těžká</button>
       </div>
-
-      <button class="btn-ghost" onclick="showLeaderboard()">🏆 Tabulka nejlepších</button>
+      <button class="btn btn-purple" onclick="startGame()">▶&nbsp; Hrát!</button>
     </div>
+
+    <button class="btn btn-ghost" onclick="goLb()">🏆 Tabulka nejlepších</button>
   </div>
+</div>
 
-  <!-- ===== HERNÍ OBRAZOVKA ===== -->
-  <div id="screen-game" class="screen">
-    <div class="screen-inner">
-      <div class="game-header">
-        <div class="stat-box">
-          <div class="label">Otázka</div>
-          <div class="value" id="hdr-question">1/10</div>
-        </div>
-        <div class="stat-box">
-          <div class="label">Skóre</div>
-          <div class="value" id="hdr-score">0</div>
-        </div>
-        <div class="stat-box">
-          <div class="label">Série</div>
-          <div class="value" id="hdr-streak">🔥0</div>
-        </div>
-      </div>
+<!-- ══════════ GAME ══════════ -->
+<div id="screen-game" class="screen">
+  <div class="page">
 
-      <div class="progress-bar">
-        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-      </div>
-
-      <div class="question-card" id="question-card">
-        <div class="q-badge" id="q-badge">Doplň Y nebo I</div>
-        <div class="q-text" id="q-text"></div>
-        <div class="q-hint" id="q-hint"></div>
-
-        <div class="yi-btns" id="yi-btns" style="display:none;">
-          <button class="yi-btn" id="btn-y" onclick="answer('y')">Y</button>
-          <button class="yi-btn" id="btn-i" onclick="answer('i')">I</button>
-        </div>
-
-        <div class="answers-grid two-col" id="choice-btns" style="display:none;"></div>
-
-        <div class="feedback-msg" id="feedback-msg"></div>
-        <div class="streak-badge" id="streak-badge"></div>
-      </div>
+    <div class="hdr">
+      <div class="hdr-stat"><div class="lbl">Otázka</div><div class="val" id="hdr-q">1/10</div></div>
+      <div class="hdr-stat"><div class="lbl">Skóre</div><div class="val" id="hdr-s">0</div></div>
+      <div class="hdr-stat"><div class="lbl">Série</div><div class="val" id="hdr-str">🔥0</div></div>
     </div>
-  </div>
 
-  <!-- ===== VÝSLEDKY ===== -->
-  <div id="screen-result" class="screen">
-    <div class="screen-inner" style="justify-content:center;">
-      <span class="result-emoji" id="result-emoji">🎉</span>
-      <div class="result-title" id="result-title">Skvělé!</div>
-      <div class="result-name" id="result-name"></div>
-      <div class="stars" id="result-stars"></div>
+    <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
 
-      <div class="result-stats">
-        <div class="result-stat">
-          <div class="val" id="res-score">0</div>
-          <div class="lbl">Bodů</div>
-        </div>
-        <div class="result-stat">
-          <div class="val" id="res-correct">0</div>
-          <div class="lbl">Správně</div>
-        </div>
-        <div class="result-stat">
-          <div class="val" id="res-streak">0</div>
-          <div class="lbl">Max série</div>
-        </div>
+    <div class="card q-card" id="q-card">
+      <div class="q-badge" id="q-badge">Doplň Y nebo I</div>
+      <div class="q-word"  id="q-word"></div>
+      <div class="q-sub"   id="q-sub"></div>
+
+      <div class="timer-wrap"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+
+      <!-- Y / I -->
+      <div class="yi-row" id="yi-row" style="display:none;">
+        <button class="yi-btn" id="btn-y" onclick="pick('y')">Y</button>
+        <button class="yi-btn" id="btn-i" onclick="pick('i')">I</button>
       </div>
 
-      <div class="btn-group" style="margin-bottom:12px;">
-        <button class="btn-secondary" onclick="showLeaderboard()">🏆 Tabulka</button>
-        <button class="btn-primary" style="flex:1;" onclick="restartGame()">🔄 Znovu</button>
-      </div>
-    </div>
-  </div>
+      <!-- choice -->
+      <div class="choice-grid cols2" id="ch-grid" style="display:none;"></div>
 
-  <!-- ===== TABULKA ===== -->
-  <div id="screen-leaderboard" class="screen">
-    <div class="screen-inner">
-      <div class="lb-header">🏆 Nejlepší hráči</div>
-      <div class="lb-sub">Top 10 výsledků</div>
-      <div class="leaderboard-list" id="lb-list"></div>
-      <button class="btn-primary" onclick="goHome()">← Zpět na úvod</button>
+      <div class="feedback" id="fb"></div>
+      <div class="streak-pill" id="str-pill"></div>
     </div>
-  </div>
 
-</div><!-- #app -->
+  </div>
+</div>
+
+<!-- ══════════ RESULT ══════════ -->
+<div id="screen-result" class="screen">
+  <div class="page">
+
+    <div class="res-emoji anim-popin" id="res-emoji">🎉</div>
+    <div class="res-title" id="res-title">Skvělé!</div>
+    <div class="res-stars" id="res-stars"></div>
+
+    <div class="res-grid">
+      <div class="res-box"><div class="v" id="res-pts">0</div><div class="l">Bodů</div></div>
+      <div class="res-box"><div class="v" id="res-ok">0</div><div class="l">Správně</div></div>
+      <div class="res-box"><div class="v" id="res-str">0</div><div class="l">Max série</div></div>
+    </div>
+
+    <div class="save-section">
+      <label>Zadej jméno a ulož výsledek:</label>
+      <input type="text" class="inp" id="res-name" placeholder="Tvoje jméno…" maxlength="20"
+             autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false">
+      <button class="btn btn-purple" id="btn-save" onclick="saveAndShowLb()">🏆 Uložit do tabulky</button>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" style="flex:1;" onclick="goLb()">Tabulka</button>
+      <button class="btn btn-ghost" style="flex:1;" onclick="goHome()">🔄 Znovu</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ LEADERBOARD ══════════ -->
+<div id="screen-leaderboard" class="screen">
+  <div class="page">
+    <div class="lb-title">🏆 Nejlepší hráči</div>
+    <div class="lb-sub" id="lb-sub">Top 10 výsledků</div>
+    <div class="lb-list" id="lb-list"></div>
+    <button class="btn btn-purple" onclick="goHome()">← Zpět na úvod</button>
+  </div>
+</div>
 
 <script>
-// ===== OTÁZKY =====
-const questions = {
+// ════════════════════════════════════════
+//  OTÁZKY  (s id pro adaptivní algoritmus)
+// ════════════════════════════════════════
+const BANK = {
   easy: [
-    { type:'yi', blank:'š_pka',   answer:'i', hint:'Š je měkká → I' },
-    { type:'yi', blank:'č_st',    answer:'i', hint:'Č je měkká → I' },
-    { type:'yi', blank:'ř_kat',   answer:'i', hint:'Ř je měkká → I' },
-    { type:'yi', blank:'c_bule',  answer:'i', hint:'C je měkká → I' },
-    { type:'yi', blank:'j_st',    answer:'i', hint:'J je měkká → I' },
-    { type:'yi', blank:'ž_to',    answer:'i', hint:'Ž je měkká → I' },
-    { type:'yi', blank:'r_ba',    answer:'y', hint:'R je tvrdá → Y' },
-    { type:'yi', blank:'k_tka',   answer:'y', hint:'K je tvrdá → Y' },
-    { type:'yi', blank:'h_ena',   answer:'y', hint:'H je tvrdá → Y' },
-    { type:'yi', blank:'d_m',     answer:'y', hint:'D je tvrdá → Y' },
-    { type:'yi', blank:'t_kat',   answer:'y', hint:'T je tvrdá → Y' },
-    { type:'yi', blank:'n_lon',   answer:'y', hint:'N je tvrdá → Y' },
-    { type:'yi', blank:'chod_',   answer:'y', hint:'CH je tvrdá → Y' },
-    { type:'yi', blank:'ž_rafa',  answer:'i', hint:'Ž je měkká → I' },
-    { type:'yi', blank:'č_ra',    answer:'á', answer:'i', hint:'Č je měkká → I' },
+    { id:'e0',  type:'yi', blank:'š_pka',    answer:'i', hint:'Š je měkká → I' },
+    { id:'e1',  type:'yi', blank:'č_st',     answer:'i', hint:'Č je měkká → I' },
+    { id:'e2',  type:'yi', blank:'ř_kat',    answer:'i', hint:'Ř je měkká → I' },
+    { id:'e3',  type:'yi', blank:'c_bule',   answer:'i', hint:'C je měkká → I' },
+    { id:'e4',  type:'yi', blank:'j_st',     answer:'i', hint:'J je měkká → I' },
+    { id:'e5',  type:'yi', blank:'ž_to',     answer:'i', hint:'Ž je měkká → I' },
+    { id:'e6',  type:'yi', blank:'č_ra',     answer:'i', hint:'Č je měkká → I' },
+    { id:'e7',  type:'yi', blank:'š_t',      answer:'i', hint:'Š je měkká → I' },
+    { id:'e8',  type:'yi', blank:'r_ba',     answer:'y', hint:'R je tvrdá → Y' },
+    { id:'e9',  type:'yi', blank:'k_tka',    answer:'y', hint:'K je tvrdá → Y' },
+    { id:'e10', type:'yi', blank:'h_ena',    answer:'y', hint:'H je tvrdá → Y' },
+    { id:'e11', type:'yi', blank:'d_m',      answer:'y', hint:'D je tvrdá → Y' },
+    { id:'e12', type:'yi', blank:'t_kat',    answer:'y', hint:'T je tvrdá → Y' },
+    { id:'e13', type:'yi', blank:'n_lon',    answer:'y', hint:'N je tvrdá → Y' },
+    { id:'e14', type:'yi', blank:'chod_',    answer:'y', hint:'CH je tvrdá → Y' },
+    { id:'e15', type:'yi', blank:'ž_rafa',   answer:'i', hint:'Ž je měkká → I' },
+    { id:'e16', type:'yi', blank:'h_batel',  answer:'y', hint:'H je tvrdá → Y' },
+    { id:'e17', type:'yi', blank:'k_ta',     answer:'y', hint:'K je tvrdá → Y' },
+    { id:'e18', type:'yi', blank:'č_slovce', answer:'i', hint:'Č je měkká → I' },
   ],
   medium: [
-    { type:'yi', blank:'z_ma',    answer:'i', hint:'Z je obojetná – zima píšeme s I' },
-    { type:'yi', blank:'v_tr',    answer:'i', hint:'V je obojetná – vítr píšeme s I' },
-    { type:'yi', blank:'m_ška',   answer:'y', hint:'M je obojetná – myška píšeme s Y' },
-    { type:'yi', blank:'l_stek',  answer:'i', hint:'L je obojetná – lístek píšeme s I' },
-    { type:'yi', blank:'l_že',    answer:'y', hint:'L je obojetná – lyže píšeme s Y' },
-    { type:'yi', blank:'s_r',     answer:'y', hint:'S je obojetná – sýr píšeme s Y' },
-    { type:'yi', blank:'s_la',    answer:'i', hint:'S je obojetná – síla píšeme s I' },
-    { type:'yi', blank:'p_vo',    answer:'i', hint:'P je obojetná – pivo píšeme s I' },
-    { type:'yi', blank:'p_ramida',answer:'y', hint:'P je obojetná – pyramida píšeme s Y' },
-    { type:'yi', blank:'m_nce',   answer:'i', hint:'M je obojetná – mince píšeme s I' },
-    { type:'yi', blank:'b_dlet',  answer:'y', hint:'B je obojetná – bydlet píšeme s Y' },
-    { type:'yi', blank:'b_zon',   answer:'i', hint:'B je obojetná – bizon píšeme s I' },
-    { type:'choice', question:'Jak se správně píše?', options:['ryby','riby'],   answer:'ryby',  hint:'R je tvrdá souhláska' },
-    { type:'choice', question:'Jak se správně píše?', options:['šipka','šypka'], answer:'šipka', hint:'Š je měkká souhláska' },
-    { type:'choice', question:'Jak se správně píše?', options:['číst','čyst'],   answer:'číst',  hint:'Č je měkká souhláska' },
-    { type:'choice', question:'Jak se správně píše?', options:['kytka','kitka'], answer:'kytka', hint:'K je tvrdá souhláska' },
-    { type:'choice', question:'Jak se správně píše?', options:['žirafa','žyrafa'],answer:'žirafa',hint:'Ž je měkká souhláska' },
+    { id:'m0',  type:'yi', blank:'z_ma',     answer:'i', hint:'Z je obojetná – zima s I' },
+    { id:'m1',  type:'yi', blank:'v_tr',     answer:'i', hint:'V je obojetná – vítr s I' },
+    { id:'m2',  type:'yi', blank:'m_ška',    answer:'y', hint:'M je obojetná – myška s Y' },
+    { id:'m3',  type:'yi', blank:'l_stek',   answer:'i', hint:'L je obojetná – lístek s I' },
+    { id:'m4',  type:'yi', blank:'l_že',     answer:'y', hint:'L je obojetná – lyže s Y' },
+    { id:'m5',  type:'yi', blank:'s_r',      answer:'y', hint:'S je obojetná – sýr s Y' },
+    { id:'m6',  type:'yi', blank:'s_la',     answer:'i', hint:'S je obojetná – síla s I' },
+    { id:'m7',  type:'yi', blank:'p_vo',     answer:'i', hint:'P je obojetná – pivo s I' },
+    { id:'m8',  type:'yi', blank:'p_ramida', answer:'y', hint:'P je obojetná – pyramida s Y' },
+    { id:'m9',  type:'yi', blank:'m_nce',    answer:'i', hint:'M je obojetná – mince s I' },
+    { id:'m10', type:'yi', blank:'b_dlet',   answer:'y', hint:'B je obojetná – bydlet s Y' },
+    { id:'m11', type:'yi', blank:'b_zon',    answer:'i', hint:'B je obojetná – bizon s I' },
+    { id:'m12', type:'yi', blank:'f_zika',   answer:'y', hint:'F je obojetná – fyzika s Y' },
+    { id:'m13', type:'yi', blank:'f_la',     answer:'i', hint:'F je obojetná – fila s I' },
+    { id:'m14', type:'choice', q:'Jak se správně píše?', opts:['ryby','riby'],    answer:'ryby',  hint:'R je tvrdá → Y' },
+    { id:'m15', type:'choice', q:'Jak se správně píše?', opts:['šipka','šypka'],  answer:'šipka', hint:'Š je měkká → I' },
+    { id:'m16', type:'choice', q:'Jak se správně píše?', opts:['číst','čyst'],    answer:'číst',  hint:'Č je měkká → I' },
+    { id:'m17', type:'choice', q:'Jak se správně píše?', opts:['kytka','kitka'],  answer:'kytka', hint:'K je tvrdá → Y' },
+    { id:'m18', type:'choice', q:'Jak se správně píše?', opts:['žirafa','žyrafa'],answer:'žirafa',hint:'Ž je měkká → I' },
   ],
   hard: [
-    { type:'choice', question:'Jak se správně píše?', options:['příroda','přyroda'],   answer:'příroda',  hint:'Ř je měkká → I' },
-    { type:'choice', question:'Jak se správně píše?', options:['výběr','víběr'],       answer:'výběr',    hint:'V je obojetná – výběr s Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['silnice','sylnice'],   answer:'silnice',  hint:'S je obojetná – silnice s I' },
-    { type:'choice', question:'Jak se správně píše?', options:['kyslík','kislík'],     answer:'kyslík',   hint:'K je tvrdá → Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['rytmus','ritmus'],     answer:'rytmus',   hint:'R je tvrdá → Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['cizinec','cyzinec'],   answer:'cizinec',  hint:'C je měkká → I' },
-    { type:'choice', question:'Jak se správně píše?', options:['bylinka','bilinka'],   answer:'bylinka',  hint:'B je obojetná – bylinka s Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['písek','pysek'],       answer:'písek',    hint:'P je obojetná – písek s I' },
-    { type:'choice', question:'Jak se správně píše?', options:['vysílat','visylat'],   answer:'vysílat',  hint:'V obojetná Y, S obojetná í' },
-    { type:'choice', question:'Vyber správnou větu',  options:['Ryby mají šupiny.','Riby mají šupiny.'], answer:'Ryby mají šupiny.', hint:'R je tvrdá souhláska' },
-    { type:'choice', question:'Vyber správnou větu',  options:['Čítal jsem knížku.','Čytal jsem knížku.'], answer:'Čítal jsem knížku.', hint:'Č je měkká souhláska' },
-    { type:'choice', question:'Vyber správnou větu',  options:['Šel jsem na výlet.','Šel jsem na vilet.'], answer:'Šel jsem na výlet.', hint:'V obojetná – výlet s Y' },
-    { type:'choice', question:'Vyber správnou větu',  options:['Myška má dlouhý ocas.','Miška má dlouhý ocas.'], answer:'Myška má dlouhý ocas.', hint:'M je obojetná – myška s Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['kobylka','kobilka'],   answer:'kobylka',  hint:'B je obojetná – kobylka s Y' },
-    { type:'choice', question:'Jak se správně píše?', options:['fyzika','fizika'],     answer:'fyzika',   hint:'F je obojetná – fyzika s Y' },
+    { id:'h0',  type:'choice', q:'Jak se správně píše?', opts:['příroda','přyroda'],     answer:'příroda',  hint:'Ř je měkká → I' },
+    { id:'h1',  type:'choice', q:'Jak se správně píše?', opts:['výběr','víběr'],         answer:'výběr',    hint:'V je obojetná – výběr s Y' },
+    { id:'h2',  type:'choice', q:'Jak se správně píše?', opts:['silnice','sylnice'],     answer:'silnice',  hint:'S je obojetná – silnice s I' },
+    { id:'h3',  type:'choice', q:'Jak se správně píše?', opts:['kyslík','kislík'],       answer:'kyslík',   hint:'K je tvrdá → Y' },
+    { id:'h4',  type:'choice', q:'Jak se správně píše?', opts:['rytmus','ritmus'],       answer:'rytmus',   hint:'R je tvrdá → Y' },
+    { id:'h5',  type:'choice', q:'Jak se správně píše?', opts:['cizinec','cyzinec'],     answer:'cizinec',  hint:'C je měkká → I' },
+    { id:'h6',  type:'choice', q:'Jak se správně píše?', opts:['bylinka','bilinka'],     answer:'bylinka',  hint:'B je obojetná – bylinka s Y' },
+    { id:'h7',  type:'choice', q:'Jak se správně píše?', opts:['písek','pysek'],         answer:'písek',    hint:'P je obojetná – písek s I' },
+    { id:'h8',  type:'choice', q:'Jak se správně píše?', opts:['vysílat','visylat'],     answer:'vysílat',  hint:'V obojetná Y, S obojetná í' },
+    { id:'h9',  type:'choice', q:'Jak se správně píše?', opts:['kobylka','kobilka'],     answer:'kobylka',  hint:'B je obojetná – kobylka s Y' },
+    { id:'h10', type:'choice', q:'Jak se správně píše?', opts:['fyzika','fizika'],       answer:'fyzika',   hint:'F je obojetná – fyzika s Y' },
+    { id:'h11', type:'choice', q:'Jak se správně píše?', opts:['chybět','chibět'],       answer:'chybět',   hint:'CH je tvrdá → Y' },
+    { id:'h12', type:'choice', q:'Jak se správně píše?', opts:['být','bit'],             answer:'být',      hint:'B je obojetná – být s Y' },
+    { id:'h13', type:'choice', q:'Vyber správnou větu',  opts:['Ryby mají šupiny.','Riby mají šupiny.'],   answer:'Ryby mají šupiny.',   hint:'R je tvrdá → Y' },
+    { id:'h14', type:'choice', q:'Vyber správnou větu',  opts:['Čítal jsem knížku.','Čytal jsem knížku.'], answer:'Čítal jsem knížku.',  hint:'Č je měkká → I' },
+    { id:'h15', type:'choice', q:'Vyber správnou větu',  opts:['Šel jsem na výlet.','Šel jsem na vilet.'], answer:'Šel jsem na výlet.',  hint:'V obojetná – výlet s Y' },
+    { id:'h16', type:'choice', q:'Vyber správnou větu',  opts:['Myška má dlouhý ocas.','Miška má dlouhý ocas.'], answer:'Myška má dlouhý ocas.', hint:'M obojetná – myška s Y' },
   ]
 };
 
-const QUESTIONS_PER_GAME = 10;
-const BASE_PTS   = 10;
-const STREAK_PTS = 5;
-const FAST_PTS   = 3;
+// ════════════════════════════════════════
+//  ADAPTIVNÍ VÁHY
+// ════════════════════════════════════════
+function loadWeights() {
+  try { return JSON.parse(localStorage.getItem('yi_w') || '{}'); } catch { return {}; }
+}
+function saveWeights(w) {
+  try { localStorage.setItem('yi_w', JSON.stringify(w)); } catch {}
+}
+function bumpWeight(id, correct) {
+  const w = loadWeights();
+  const cur = w[id] || 1;
+  w[id] = correct ? Math.max(1, cur - 1) : Math.min(12, cur + 3);
+  saveWeights(w);
+}
 
-let state = {
-  playerName: '',
-  difficulty: 'easy',
-  currentQ: 0,
+function weightedSample(pool, n) {
+  const w = loadWeights();
+  // expand pool by weight
+  const expanded = [];
+  pool.forEach(q => {
+    const weight = w[q.id] || 1;
+    for (let i = 0; i < weight; i++) expanded.push(q);
+  });
+  // Fisher-Yates shuffle
+  for (let i = expanded.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
+  }
+  // pick unique
+  const seen = new Set(), result = [];
+  for (const q of expanded) {
+    if (!seen.has(q.id)) { seen.add(q.id); result.push(q); if (result.length >= n) break; }
+  }
+  // fallback fill if pool < n
+  for (const q of pool) {
+    if (result.length >= n) break;
+    if (!seen.has(q.id)) { seen.add(q.id); result.push(q); }
+  }
+  return result;
+}
+
+// ════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════
+const TOTAL_Q   = 10;
+const BASE_PTS  = 10;
+const STR_PTS   = 5;
+const Q_TIME    = 10; // seconds per question
+
+let G = {
+  diff: 'easy',
+  questions: [],
+  qi: 0,          // current question index
   score: 0,
   streak: 0,
   maxStreak: 0,
   correct: 0,
-  gameQuestions: [],
   answered: false,
-  questionStart: 0,
+  tStart: 0,
+  timerRaf: null,
+  scoreSaved: false,
 };
 
-// ===== VÝBĚR OBTÍŽNOSTI =====
-function selectDiff(btn) {
-  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.difficulty = btn.dataset.diff;
+// ════════════════════════════════════════
+//  WELCOME
+// ════════════════════════════════════════
+function pickDiff(btn) {
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  G.diff = btn.dataset.diff;
 }
 
-// ===== ZAČÁTEK HRY =====
 function startGame() {
-  state.playerName = document.getElementById('playerName').value.trim() || 'Hráč';
-
-  const pool = questions[state.difficulty].filter(q => {
-    // oprava dat – odstraň chybný záznam z easy (překlep v generátoru)
-    return q.answer === 'y' || q.answer === 'i' || q.type === 'choice';
-  });
-
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  state.gameQuestions = pool.slice(0, QUESTIONS_PER_GAME);
-  state.currentQ = state.score = state.streak = state.maxStreak = state.correct = 0;
-  state.answered = false;
-
-  showScreen('game');
-  renderQuestion();
+  G.questions  = weightedSample(BANK[G.diff], TOTAL_Q);
+  G.qi         = 0;
+  G.score      = 0;
+  G.streak     = 0;
+  G.maxStreak  = 0;
+  G.correct    = 0;
+  G.answered   = false;
+  G.scoreSaved = false;
+  go('game');
+  showQ();
 }
 
-// ===== VYKRESLENÍ OTÁZKY =====
-function renderQuestion() {
-  const q = state.gameQuestions[state.currentQ];
-  state.answered = false;
-  state.questionStart = Date.now();
+// ════════════════════════════════════════
+//  GAME
+// ════════════════════════════════════════
+function showQ() {
+  const q = G.questions[G.qi];
+  G.answered = false;
+  G.tStart   = Date.now();
 
-  document.getElementById('hdr-question').textContent = `${state.currentQ + 1}/${state.gameQuestions.length}`;
-  document.getElementById('hdr-score').textContent = state.score;
-  document.getElementById('hdr-streak').textContent = `🔥${state.streak}`;
-  document.getElementById('progress-fill').style.width =
-    `${(state.currentQ / state.gameQuestions.length) * 100}%`;
+  // header
+  $('hdr-q').textContent   = `${G.qi + 1}/${G.questions.length}`;
+  $('hdr-s').textContent   = G.score;
+  $('hdr-str').textContent = `🔥${G.streak}`;
+  $('prog').style.width    = `${(G.qi / G.questions.length) * 100}%`;
 
-  document.getElementById('feedback-msg').textContent = '';
-  document.getElementById('feedback-msg').className = 'feedback-msg';
-  document.getElementById('streak-badge').className = 'streak-badge';
+  // reset feedback
+  $('fb').textContent = '';
+  $('fb').className   = 'feedback';
+  $('str-pill').className = 'streak-pill';
 
-  const yiBtns     = document.getElementById('yi-btns');
-  const choiceBtns = document.getElementById('choice-btns');
-  const btnY = document.getElementById('btn-y');
-  const btnI = document.getElementById('btn-i');
+  const yiRow  = $('yi-row');
+  const chGrid = $('ch-grid');
 
-  btnY.className = 'yi-btn'; btnY.disabled = false;
-  btnI.className = 'yi-btn'; btnI.disabled = false;
+  $('btn-y').className = 'yi-btn'; $('btn-y').disabled = false;
+  $('btn-i').className = 'yi-btn'; $('btn-i').disabled = false;
 
   if (q.type === 'yi') {
-    document.getElementById('q-badge').textContent = 'Doplň Y nebo I';
-    document.getElementById('q-text').innerHTML = formatBlank(q.blank);
-    document.getElementById('q-hint').textContent = '';
-    yiBtns.style.display = 'flex';
-    choiceBtns.style.display = 'none';
+    $('q-badge').textContent = 'Doplň Y nebo I';
+    $('q-word').innerHTML    = q.blank.replace(/_/g, '<span class="gap">_</span>');
+    $('q-sub').textContent   = '';
+    yiRow.style.display  = 'flex';
+    chGrid.style.display = 'none';
   } else {
-    document.getElementById('q-badge').textContent = q.question;
-    document.getElementById('q-text').textContent = '';
-    document.getElementById('q-hint').textContent = '';
-    yiBtns.style.display = 'none';
-    choiceBtns.style.display = 'grid';
-    choiceBtns.className = 'answers-grid ' + (q.options.length === 2 ? 'two-col' : 'one-col');
-
-    choiceBtns.innerHTML = '';
-    [...q.options].sort(() => Math.random() - .5).forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'answer-btn';
-      btn.textContent = opt;
-      btn.onclick = () => answerChoice(opt);
-      choiceBtns.appendChild(btn);
+    $('q-badge').textContent = q.q;
+    $('q-word').textContent  = '';
+    $('q-sub').textContent   = '';
+    yiRow.style.display  = 'none';
+    chGrid.style.display = 'grid';
+    chGrid.className     = 'choice-grid ' + (q.opts.length > 2 ? 'cols1' : 'cols2');
+    chGrid.innerHTML     = '';
+    [...q.opts].sort(() => Math.random() - .5).forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'ch-btn'; b.textContent = o;
+      b.onclick = () => pickChoice(o);
+      chGrid.appendChild(b);
     });
   }
 
-  const card = document.getElementById('question-card');
+  // card animation
+  const card = $('q-card');
   card.style.animation = 'none';
   card.offsetHeight;
-  card.style.animation = 'slideIn .25s ease';
+  card.style.animation = 'slideUp .25s ease both';
+
+  startTimer();
 }
 
-function formatBlank(blank) {
-  return blank.replace(/_/g, '<span class="blank">_</span>');
-}
+// ── TIMER ──
+function startTimer() {
+  cancelTimer();
+  const fill = $('timer-fill');
+  fill.style.width = '100%';
+  fill.style.background = '#43e97b';
 
-// ===== ODPOVĚDI =====
-function answer(choice) {
-  if (state.answered) return;
-  state.answered = true;
-  const q = state.gameQuestions[state.currentQ];
-  const correct = choice === q.answer;
-  const fast = (Date.now() - state.questionStart) < 4000;
-
-  const btnY = document.getElementById('btn-y');
-  const btnI = document.getElementById('btn-i');
-  btnY.disabled = true;
-  btnI.disabled = true;
-
-  const chosen = choice === 'y' ? btnY : btnI;
-  chosen.classList.add(correct ? 'correct' : 'wrong');
-  if (!correct) {
-    const other = choice === 'y' ? btnI : btnY;
-    other.classList.add('correct');
+  function tick() {
+    const pct = Math.max(0, 1 - (Date.now() - G.tStart) / (Q_TIME * 1000));
+    fill.style.width = (pct * 100) + '%';
+    fill.style.background = pct > .5 ? '#43e97b' : pct > .25 ? '#ffd43b' : '#e74c3c';
+    if (pct <= 0 && !G.answered) { timeUp(); return; }
+    if (!G.answered) G.timerRaf = requestAnimationFrame(tick);
   }
-
-  processAnswer(correct, fast, q);
+  G.timerRaf = requestAnimationFrame(tick);
 }
 
-function answerChoice(choice) {
-  if (state.answered) return;
-  state.answered = true;
-  const q = state.gameQuestions[state.currentQ];
-  const correct = choice === q.answer;
-  const fast = (Date.now() - state.questionStart) < 5000;
+function cancelTimer() {
+  if (G.timerRaf) { cancelAnimationFrame(G.timerRaf); G.timerRaf = null; }
+}
 
-  document.getElementById('choice-btns').querySelectorAll('.answer-btn').forEach(b => {
+function timeUp() {
+  if (G.answered) return;
+  G.answered = true;
+  cancelTimer();
+  $('btn-y').disabled = true;
+  $('btn-i').disabled = true;
+  document.querySelectorAll('.ch-btn').forEach(b => b.disabled = true);
+  const q = G.questions[G.qi];
+  applyWrong(q);
+  setTimeout(advance, 1800);
+}
+
+// ── ANSWERS ──
+function pick(letter) {
+  if (G.answered) return;
+  G.answered = true;
+  cancelTimer();
+  const q = G.questions[G.qi];
+  const ok = letter === q.answer;
+  $('btn-y').disabled = true;
+  $('btn-i').disabled = true;
+  $(letter === 'y' ? 'btn-y' : 'btn-i').classList.add(ok ? 'ok' : 'bad');
+  if (!ok) $(letter === 'y' ? 'btn-i' : 'btn-y').classList.add('ok');
+  ok ? applyRight(q) : applyWrong(q);
+  setTimeout(advance, 1600);
+}
+
+function pickChoice(val) {
+  if (G.answered) return;
+  G.answered = true;
+  cancelTimer();
+  const q = G.questions[G.qi];
+  const ok = val === q.answer;
+  document.querySelectorAll('.ch-btn').forEach(b => {
     b.disabled = true;
-    if (b.textContent === q.answer) b.classList.add('correct');
-    else if (b.textContent === choice && !correct) b.classList.add('wrong');
+    if (b.textContent === q.answer) b.classList.add('ok');
+    else if (b.textContent === val && !ok) b.classList.add('bad');
   });
-
-  processAnswer(correct, fast, q);
+  ok ? applyRight(q) : applyWrong(q);
+  setTimeout(advance, 1600);
 }
 
-function processAnswer(correct, fast, q) {
-  const fb = document.getElementById('feedback-msg');
+function applyRight(q) {
+  const elapsed = (Date.now() - G.tStart) / 1000;
+  const fast = elapsed < 3, medium = elapsed < 6;
+  let pts = BASE_PTS + (G.streak > 0 ? STR_PTS : 0) + (fast ? 5 : medium ? 2 : 0);
 
-  if (correct) {
-    state.correct++;
-    state.streak++;
-    state.maxStreak = Math.max(state.maxStreak, state.streak);
+  G.score    += pts;
+  G.streak++;
+  G.correct++;
+  G.maxStreak = Math.max(G.maxStreak, G.streak);
+  bumpWeight(q.id, true);
 
-    let pts = BASE_PTS;
-    if (state.streak > 1) pts += STREAK_PTS;
-    if (fast) pts += FAST_PTS;
-    state.score += pts;
+  const msgs = ['Správně! 🌟','Výborně! 🎉','Přesně tak! ✅','Skvělé! 🚀','Bravo! 🌈'];
+  $('fb').textContent = msgs[G.qi % msgs.length] + (fast ? ' ⚡+5' : medium ? ' +2' : '');
+  $('fb').className   = 'feedback ok';
 
-    const msgs = ['Správně! 🌟','Výborně! 🎉','Přesně tak! ✅','Skvělé! 🚀','Bravo! 🌈'];
-    fb.textContent = msgs[Math.floor(Math.random() * msgs.length)];
-    fb.className = 'feedback-msg correct';
-
-    if (state.streak >= 3) {
-      const sb = document.getElementById('streak-badge');
-      sb.textContent = `🔥 Série ${state.streak}× +${STREAK_PTS} bodů navíc!`;
-      sb.className = 'streak-badge show';
-    }
-    playSound('correct');
-  } else {
-    state.streak = 0;
-    fb.textContent = `✗ Správně: ${q.answer?.toUpperCase() ?? q.answer} – ${q.hint}`;
-    fb.className = 'feedback-msg wrong';
-    playSound('wrong');
+  if (G.streak >= 3) {
+    $('str-pill').textContent = `🔥 Série ${G.streak}× ! Bonus +${STR_PTS}b`;
+    $('str-pill').className   = 'streak-pill show';
   }
-
-  document.getElementById('hdr-score').textContent = state.score;
-  document.getElementById('hdr-streak').textContent = `🔥${state.streak}`;
-  setTimeout(nextQuestion, 1700);
+  $('hdr-s').textContent   = G.score;
+  $('hdr-str').textContent = `🔥${G.streak}`;
+  playTone('ok');
 }
 
-function nextQuestion() {
-  state.currentQ++;
-  state.currentQ >= state.gameQuestions.length ? endGame() : renderQuestion();
+function applyWrong(q) {
+  G.streak = 0;
+  bumpWeight(q.id, false);
+  const ans = q.type === 'yi' ? q.answer.toUpperCase() : q.answer;
+  $('fb').textContent = `✗ Správně: „${ans}" – ${q.hint}`;
+  $('fb').className   = 'feedback bad';
+  $('hdr-str').textContent = '🔥0';
+  playTone('bad');
 }
 
-// ===== KONEC HRY =====
+function advance() {
+  G.qi++;
+  G.qi >= G.questions.length ? endGame() : showQ();
+}
+
+// ════════════════════════════════════════
+//  END GAME
+// ════════════════════════════════════════
 function endGame() {
-  saveScore();
-  const pct = state.correct / state.gameQuestions.length;
+  cancelTimer();
+  const pct = G.correct / G.questions.length;
 
   const [emoji, title] =
-    pct >= .9 ? ['🏆','Perfektní!'] :
-    pct >= .7 ? ['🌟','Skvělé!']    :
-    pct >= .5 ? ['👍','Dobrá práce!'] :
+    pct >= .9 ? ['🏆','Perfektní!']     :
+    pct >= .7 ? ['🌟','Skvělé!']        :
+    pct >= .5 ? ['👍','Dobrá práce!']   :
                ['📚','Trénuj dál!'];
 
-  document.getElementById('result-emoji').textContent = emoji;
-  document.getElementById('result-title').textContent = title;
-  document.getElementById('result-name').textContent  = state.playerName;
-  document.getElementById('res-score').textContent    = state.score;
-  document.getElementById('res-correct').textContent  = `${state.correct}/${state.gameQuestions.length}`;
-  document.getElementById('res-streak').textContent   = state.maxStreak;
-  document.getElementById('result-stars').textContent = pct >= .9 ? '⭐⭐⭐' : pct >= .6 ? '⭐⭐' : '⭐';
+  $('res-emoji').textContent = emoji;
+  $('res-title').textContent = title;
+  $('res-stars').textContent = pct >= .9 ? '⭐⭐⭐' : pct >= .6 ? '⭐⭐' : '⭐';
+  $('res-pts').textContent   = '0';
+  $('res-ok').textContent    = `${G.correct}/${G.questions.length}`;
+  $('res-str').textContent   = G.maxStreak;
+  $('res-name').value        = '';
+  $('btn-save').disabled     = false;
+  $('btn-save').textContent  = '🏆 Uložit do tabulky';
+  G.scoreSaved = false;
 
-  showScreen('result');
-  if (pct >= .7) launchConfetti();
+  go('result');
+  countUp($('res-pts'), 0, G.score, 900);
+  if (pct >= .7) setTimeout(launchConfetti, 300);
 }
 
-// ===== TABULKA =====
-function saveScore() {
-  const lb = getLeaderboard();
-  lb.push({
-    name: state.playerName,
-    score: state.score,
-    correct: state.correct,
-    total: state.gameQuestions.length,
-    difficulty: state.difficulty,
-    date: new Date().toLocaleDateString('cs-CZ'),
-  });
-  lb.sort((a, b) => b.score - a.score);
+// ── animované počítadlo ──
+function countUp(el, from, to, ms) {
+  const t0 = performance.now();
+  function step(now) {
+    const p = Math.min(1, (now - t0) / ms);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (to - from) * ease);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ════════════════════════════════════════
+//  LEADERBOARD
+// ════════════════════════════════════════
+function getLb() {
+  try { return JSON.parse(localStorage.getItem('yi_lb') || '[]'); } catch { return []; }
+}
+function setLb(lb) {
   try { localStorage.setItem('yi_lb', JSON.stringify(lb.slice(0, 50))); } catch {}
 }
 
-function getLeaderboard() {
-  try { return JSON.parse(localStorage.getItem('yi_lb') || '[]'); } catch { return []; }
+function saveAndShowLb() {
+  if (G.scoreSaved) { goLb(); return; }
+  const name = $('res-name').value.trim() || 'Hráč';
+  const lb = getLb();
+  lb.push({
+    name,
+    score:  G.score,
+    correct: G.correct,
+    total:   G.questions.length,
+    diff:    G.diff,
+    date:    new Date().toLocaleDateString('cs-CZ'),
+  });
+  lb.sort((a, b) => b.score - a.score);
+  setLb(lb);
+  G.scoreSaved = true;
+  $('btn-save').textContent = '✓ Uloženo!';
+  $('btn-save').disabled = true;
+  setTimeout(goLb, 600);
 }
 
-function showLeaderboard() {
-  const lb = getLeaderboard();
-  const list = document.getElementById('lb-list');
+function renderLb() {
+  const lb = getLb();
+  const list = $('lb-list');
+  const diffLabel = { easy:'🐣 Lehká', medium:'🦊 Střední', hard:'🦅 Těžká' };
 
   if (!lb.length) {
-    list.innerHTML = '<div class="empty-lb">Zatím žádné výsledky 🙈<br>Zahraj si první hru!</div>';
-  } else {
-    list.innerHTML = lb.slice(0, 10).map((e, i) => {
-      const cls    = ['rank-1','rank-2','rank-3'][i] ?? 'rank-other';
-      const medal  = ['🥇','🥈','🥉'][i] ?? `${i+1}.`;
-      const diff   = {easy:'🐣 Lehká', medium:'🦊 Střední', hard:'🦅 Těžká'}[e.difficulty] ?? '';
-      return `<div class="lb-item ${cls}">
-        <div class="lb-rank">${medal}</div>
-        <div>
-          <div class="lb-name">${escHtml(e.name)}</div>
-          <div class="lb-diff">${diff} · ${e.correct}/${e.total} · ${e.date}</div>
-        </div>
-        <div class="lb-score">${e.score} b</div>
-      </div>`;
-    }).join('');
+    list.innerHTML = '<div class="lb-empty">Zatím žádné výsledky 🙈<br>Zahraj si první hru!</div>';
+    return;
   }
-  showScreen('leaderboard');
+
+  // rank current session (if saved)
+  const myScore = G.scoreSaved ? G.score : -1;
+
+  list.innerHTML = lb.slice(0, 10).map((e, i) => {
+    const cls   = ['r1','r2','r3'][i] ?? 'rx';
+    const medal = ['🥇','🥈','🥉'][i] ?? `${i + 1}.`;
+    const mine  = G.scoreSaved && e.score === myScore ? ' 👈' : '';
+    return `<div class="lb-row ${cls}">
+      <div class="lb-medal">${medal}</div>
+      <div class="lb-info">
+        <div class="lb-name">${esc(e.name)}${mine}</div>
+        <div class="lb-meta">${diffLabel[e.diff]||''} · ${e.correct}/${e.total} · ${e.date}</div>
+      </div>
+      <div class="lb-pts">${e.score} b</div>
+    </div>`;
+  }).join('');
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function goLb()  { renderLb(); go('leaderboard'); }
+function goHome(){ go('welcome'); }
 
-// ===== NAVIGACE =====
-function showScreen(id) {
+// ════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════
+function go(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(`screen-${id}`).classList.add('active');
+  $('screen-' + id).classList.add('active');
+  $('screen-' + id).scrollTop = 0;
 }
-function goHome()      { showScreen('welcome'); }
-function restartGame() { showScreen('welcome'); }
+function $(id) { return document.getElementById(id); }
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
-// ===== KONFETY =====
+// ── CONFETTI ──
 function launchConfetti() {
-  const colors = ['#6c63ff','#ff6584','#ffd43b','#43e97b','#ff922b','#74c0fc'];
-  for (let i = 0; i < 55; i++) {
+  const cols = ['#5b52e8','#ff6584','#ffd43b','#27ae60','#e67e22','#74c0fc'];
+  for (let i = 0; i < 60; i++) {
     const el = document.createElement('div');
     el.className = 'confetti-piece';
-    el.style.cssText = `left:${Math.random()*100}vw;background:${colors[i%colors.length]};
-      animation-duration:${Math.random()*2+1.4}s;animation-delay:${Math.random()*.7}s;
-      transform:rotate(${Math.random()*360}deg)`;
+    el.style.cssText = `
+      left:${Math.random()*100}vw;
+      background:${cols[i % cols.length]};
+      animation-duration:${1.4 + Math.random()*2}s;
+      animation-delay:${Math.random()*.8}s;
+      transform:rotate(${Math.random()*360}deg);
+      border-radius:${Math.random() > .5 ? '50%' : '2px'};
+    `;
     document.body.appendChild(el);
     el.addEventListener('animationend', () => el.remove());
   }
 }
 
-// ===== ZVUKY =====
-let audioCtx;
-function playSound(type) {
+// ── ZVUKY ──
+let ctx;
+function playTone(type) {
   try {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    gain.gain.setValueAtTime(.18, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .4);
-    if (type === 'correct') {
-      [523,659,784].forEach((f,i) => osc.frequency.setValueAtTime(f, audioCtx.currentTime + i*.1));
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const g   = ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(.18, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .45);
+    if (type === 'ok') {
+      [523, 659, 784].forEach((f, i) => osc.frequency.setValueAtTime(f, ctx.currentTime + i * .1));
     } else {
-      osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-      osc.frequency.setValueAtTime(200, audioCtx.currentTime + .15);
+      osc.frequency.setValueAtTime(280, ctx.currentTime);
+      osc.frequency.setValueAtTime(180, ctx.currentTime + .15);
     }
-    osc.start(); osc.stop(audioCtx.currentTime + .4);
+    osc.start(); osc.stop(ctx.currentTime + .45);
   } catch {}
 }
 </script>
