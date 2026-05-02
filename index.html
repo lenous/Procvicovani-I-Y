@@ -14,10 +14,8 @@
 
     :root {
       --primary: #5b52e8;
-      --primary-light: #8b84f5;
       --success: #27ae60;
       --danger:  #e74c3c;
-      --warn:    #f39c12;
       --safe-top:    env(safe-area-inset-top,    0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
@@ -45,7 +43,7 @@
 
     .page {
       width: 100%; max-width: 480px;
-      padding: 20px 16px 32px;
+      padding: 20px 16px 36px;
       display: flex; flex-direction: column; align-items: center;
       gap: 14px; flex: 1;
     }
@@ -64,14 +62,13 @@
       display: flex; align-items: center; justify-content: center;
       width: 100%; min-height: 56px; border-radius: 16px;
       font-size: 1.1rem; font-weight: 900;
-      transition: transform .1s, box-shadow .1s;
+      transition: transform .1s;
     }
     .btn:active { transform: scale(.96); }
     .btn-purple {
       background: linear-gradient(135deg, #5b52e8, #9b93ff);
       color: #fff; box-shadow: 0 5px 18px rgba(91,82,232,.4);
     }
-    .btn-purple:active { box-shadow: 0 2px 8px rgba(91,82,232,.3); }
     .btn-soft { background: #eeecff; color: var(--primary); }
     .btn-ghost { background: none; color: #fff; font-weight: 800; font-size: 1rem; min-height: 44px; opacity: .9; }
 
@@ -84,9 +81,7 @@
     }
     .inp:focus { border-color: var(--primary); }
 
-    /* ══════════════════════════════════════
-       WELCOME
-    ══════════════════════════════════════ */
+    /* ══════════ WELCOME ══════════ */
     #screen-welcome .page { justify-content: center; padding-top: 12px; }
 
     .logo { font-size: 68px; }
@@ -106,9 +101,7 @@
     .diff-btn .em { font-size: 1.5rem; }
     .diff-btn.on { border-color: var(--primary); background: #eeecff; color: var(--primary); }
 
-    /* ══════════════════════════════════════
-       GAME
-    ══════════════════════════════════════ */
+    /* ══════════ GAME ══════════ */
     #screen-game .page { padding-top: 12px; gap: 10px; }
 
     .hdr {
@@ -124,42 +117,54 @@
     .prog-fill  { height: 100%; background: #ffd43b; border-radius: 99px; transition: width .4s; }
 
     /* question card */
-    .q-card { text-align: center; padding: 22px 18px 18px; position: relative; overflow: hidden; }
+    .q-card { text-align: center; padding: 20px 16px 16px; }
 
     .q-badge {
       display: inline-block; background: #eeecff; color: var(--primary);
       font-size: .78rem; font-weight: 800; padding: 4px 14px;
-      border-radius: 99px; margin-bottom: 12px;
+      border-radius: 99px; margin-bottom: 10px;
     }
 
     .q-word {
-      font-size: 2.1rem; font-weight: 900; color: #1a1a2e; margin-bottom: 4px; line-height: 1.3;
-      word-break: break-word;
+      font-size: 2.1rem; font-weight: 900; color: #1a1a2e;
+      margin-bottom: 4px; line-height: 1.3; word-break: break-word;
     }
     .q-word .gap {
-      display: inline-block; min-width: 28px;
+      display: inline-block; min-width: 26px;
       border-bottom: 4px solid var(--primary);
       color: var(--primary); padding: 0 2px;
     }
 
-    .q-sub { font-size: .85rem; color: #bbb; min-height: 18px; margin-bottom: 16px; }
+    .q-sub { font-size: .85rem; color: #bbb; min-height: 16px; margin-bottom: 12px; }
 
-    /* timer bar inside card */
-    .timer-wrap { width: 100%; height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 18px; }
-    .timer-fill  { height: 100%; border-radius: 99px; transition: background .3s; background: #43e97b; }
+    /* timer */
+    .timer-wrap { width: 100%; height: 6px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 16px; }
+    .timer-fill  { height: 100%; border-radius: 99px; transition: background .3s; }
 
-    /* Y / I buttons */
-    .yi-row { display: flex; gap: 14px; justify-content: center; }
-    .yi-btn {
-      width: 130px; height: 130px; border-radius: 22px;
-      border: 3.5px solid #e0e0f0; font-size: 3.2rem; font-weight: 900;
-      background: #fff; color: #222;
-      transition: border-color .1s, background .1s; touch-action: manipulation;
-      font-family: 'Nunito', sans-serif;
+    /* ── 4 TLAČÍTKA Y / I / Ý / Í ── */
+    .yi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      max-width: 290px;
+      margin: 0 auto;
     }
-    .yi-btn:active:not(:disabled) { transform: scale(.92); }
+
+    .yi-btn {
+      height: 84px; border-radius: 20px;
+      border: 3px solid #e0e0f0;
+      font-size: 2.5rem; font-weight: 900;
+      background: #fff; color: #222;
+      transition: border-color .1s, background .1s;
+      touch-action: manipulation;
+      font-family: 'Nunito', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .yi-btn:active:not(:disabled) { transform: scale(.91); }
     .yi-btn.ok  { border-color: var(--success); background: #e8faf0; color: var(--success); }
     .yi-btn.bad { border-color: var(--danger);  background: #fdf0ee; color: var(--danger); }
+    .yi-btn:disabled { cursor: default; }
 
     /* choice buttons */
     .choice-grid { display: grid; gap: 10px; width: 100%; }
@@ -179,7 +184,8 @@
     .ch-btn:disabled { cursor: default; }
 
     .feedback {
-      margin-top: 12px; font-size: .92rem; font-weight: 800; min-height: 20px; line-height: 1.4;
+      margin-top: 12px; font-size: .9rem; font-weight: 800;
+      min-height: 20px; line-height: 1.4;
     }
     .feedback.ok  { color: #1d8348; }
     .feedback.bad { color: #c0392b; }
@@ -192,30 +198,25 @@
     }
     .streak-pill.show { opacity: 1; }
 
-    /* ══════════════════════════════════════
-       RESULT
-    ══════════════════════════════════════ */
+    /* ══════════ RESULT ══════════ */
     #screen-result { background: linear-gradient(160deg, #667eea 0%, #764ba2 100%); }
-    #screen-result .page { justify-content: center; gap: 16px; }
+    #screen-result .page { justify-content: center; gap: 14px; }
 
-    .res-emoji { font-size: 80px; animation: bounce .9s infinite; }
+    .res-emoji { font-size: 76px; animation: bounce .9s infinite; }
     .res-title { font-size: 2rem; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.2); }
     .res-stars { font-size: 2rem; letter-spacing: 4px; }
 
     .res-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; }
-    .res-box { background: #fff; border-radius: 18px; padding: 16px 8px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.1); }
-    .res-box .v { font-size: 1.9rem; font-weight: 900; color: var(--primary); }
-    .res-box .l { font-size: .72rem; color: #999; font-weight: 800; margin-top: 2px; }
+    .res-box { background: #fff; border-radius: 18px; padding: 14px 6px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+    .res-box .v { font-size: 1.85rem; font-weight: 900; color: var(--primary); }
+    .res-box .l { font-size: .7rem; color: #999; font-weight: 800; margin-top: 2px; }
 
     .save-section { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-    .save-section .inp { background: #fff; }
     .save-section label { color: rgba(255,255,255,.85); font-weight: 800; font-size: .9rem; }
 
     .btn-row { display: flex; gap: 10px; width: 100%; }
 
-    /* ══════════════════════════════════════
-       LEADERBOARD
-    ══════════════════════════════════════ */
+    /* ══════════ LEADERBOARD ══════════ */
     #screen-leaderboard { background: linear-gradient(160deg, #667eea 0%, #764ba2 100%); }
     #screen-leaderboard .page { padding-top: 16px; }
 
@@ -223,7 +224,6 @@
     .lb-sub   { font-size: .88rem; color: rgba(255,255,255,.7); }
 
     .lb-list { width: 100%; display: flex; flex-direction: column; gap: 8px; }
-
     .lb-row {
       display: flex; align-items: center; gap: 12px;
       padding: 12px 14px; border-radius: 16px;
@@ -232,42 +232,33 @@
     .lb-row.r2 { background: linear-gradient(135deg, #efefef, #d8d8d8); }
     .lb-row.r3 { background: linear-gradient(135deg, #fce8d5, #f5c59a); }
     .lb-row.rx { background: rgba(255,255,255,.88); }
-
     .lb-medal { font-size: 1.3rem; min-width: 30px; text-align: center; font-weight: 900; }
     .lb-info  { flex: 1; }
     .lb-name  { font-weight: 800; font-size: .95rem; }
     .lb-meta  { font-size: .7rem; color: #999; font-weight: 700; }
     .lb-pts   { font-weight: 900; font-size: 1.1rem; color: var(--primary); white-space: nowrap; }
-
     .lb-empty { text-align: center; color: rgba(255,255,255,.55); padding: 28px 0; font-weight: 700; }
 
-    /* ══════════════════════════════════════
-       ANIMATIONS
-    ══════════════════════════════════════ */
-    @keyframes popIn  { from { transform:scale(.6); opacity:0 } to { transform:scale(1); opacity:1 } }
-    @keyframes slideUp{ from { transform:translateY(22px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+    /* ══════════ ANIMACE ══════════ */
+    @keyframes popIn  { from{transform:scale(.6);opacity:0} to{transform:scale(1);opacity:1} }
+    @keyframes slideUp{ from{transform:translateY(22px);opacity:0} to{transform:translateY(0);opacity:1} }
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
-    @keyframes shake  { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
-    @keyframes confettiFall { to { transform:translateY(110vh) rotate(720deg); opacity:0 } }
-
-    .anim-popin  { animation: popIn .35s cubic-bezier(.175,.885,.32,1.275) both; }
-    .anim-slide  { animation: slideUp .3s ease both; }
-    .anim-shake  { animation: shake .3s; }
+    @keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0} }
 
     .confetti-piece {
       position: fixed; width: 11px; height: 11px; border-radius: 3px; top: -20px;
       animation: confettiFall linear forwards; z-index: 999; pointer-events: none;
     }
 
-    /* ── responsive ── */
     @media (max-height: 640px) {
-      .res-emoji { font-size: 54px; }
+      .res-emoji { font-size: 50px; }
       .res-title { font-size: 1.5rem; }
-      .yi-btn { width: 108px; height: 108px; font-size: 2.6rem; }
+      .yi-btn { height: 70px; font-size: 2rem; }
       .q-word { font-size: 1.7rem; }
     }
     @media (max-width: 360px) {
-      .yi-btn { width: 118px; height: 118px; }
+      .yi-grid { max-width: 260px; }
+      .yi-btn { height: 78px; font-size: 2.2rem; }
     }
   </style>
 </head>
@@ -307,19 +298,21 @@
     <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
 
     <div class="card q-card" id="q-card">
-      <div class="q-badge" id="q-badge">Doplň Y nebo I</div>
+      <div class="q-badge" id="q-badge">Doplň písmeno</div>
       <div class="q-word"  id="q-word"></div>
       <div class="q-sub"   id="q-sub"></div>
 
-      <div class="timer-wrap"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+      <div class="timer-wrap"><div class="timer-fill" id="timer-fill" style="width:100%;background:#43e97b"></div></div>
 
-      <!-- Y / I -->
-      <div class="yi-row" id="yi-row" style="display:none;">
-        <button class="yi-btn" id="btn-y" onclick="pick('y')">Y</button>
-        <button class="yi-btn" id="btn-i" onclick="pick('i')">I</button>
+      <!-- 4 tlačítka: Y / I / Ý / Í -->
+      <div class="yi-grid" id="yi-row" style="display:none;">
+        <button class="yi-btn" data-val="y" onclick="pick('y')">Y</button>
+        <button class="yi-btn" data-val="i" onclick="pick('i')">I</button>
+        <button class="yi-btn" data-val="ý" onclick="pick('ý')">Ý</button>
+        <button class="yi-btn" data-val="í" onclick="pick('í')">Í</button>
       </div>
 
-      <!-- choice -->
+      <!-- výběr ze slov -->
       <div class="choice-grid cols2" id="ch-grid" style="display:none;"></div>
 
       <div class="feedback" id="fb"></div>
@@ -332,8 +325,7 @@
 <!-- ══════════ RESULT ══════════ -->
 <div id="screen-result" class="screen">
   <div class="page">
-
-    <div class="res-emoji anim-popin" id="res-emoji">🎉</div>
+    <div class="res-emoji" id="res-emoji">🎉</div>
     <div class="res-title" id="res-title">Skvělé!</div>
     <div class="res-stars" id="res-stars"></div>
 
@@ -352,9 +344,8 @@
 
     <div class="btn-row">
       <button class="btn btn-ghost" style="flex:1;" onclick="goLb()">Tabulka</button>
-      <button class="btn btn-ghost" style="flex:1;" onclick="goHome()">🔄 Znovu</button>
+      <button class="btn btn-ghost" style="flex:1;" onclick="goHome()">🔄 Hrát znovu</button>
     </div>
-
   </div>
 </div>
 
@@ -362,476 +353,400 @@
 <div id="screen-leaderboard" class="screen">
   <div class="page">
     <div class="lb-title">🏆 Nejlepší hráči</div>
-    <div class="lb-sub" id="lb-sub">Top 10 výsledků</div>
+    <div class="lb-sub">Top 10 výsledků</div>
     <div class="lb-list" id="lb-list"></div>
     <button class="btn btn-purple" onclick="goHome()">← Zpět na úvod</button>
   </div>
 </div>
 
 <script>
-// ════════════════════════════════════════
-//  OTÁZKY  (s id pro adaptivní algoritmus)
-// ════════════════════════════════════════
+// ════════════════════════════════════════════════════
+//  BANKA OTÁZEK
+//  answer: 'y' | 'i' | 'ý' | 'í'
+//  type 'yi'     → 4 tlačítka (Y / I / Ý / Í)
+//  type 'choice' → výběr ze slov
+// ════════════════════════════════════════════════════
 const BANK = {
+
+  // ── LEHKÁ: tvrdé a měkké souhlásky ──────────────
   easy: [
-    { id:'e0',  type:'yi', blank:'š_pka',    answer:'i', hint:'Š je měkká → I' },
-    { id:'e1',  type:'yi', blank:'č_st',     answer:'i', hint:'Č je měkká → I' },
-    { id:'e2',  type:'yi', blank:'ř_kat',    answer:'i', hint:'Ř je měkká → I' },
-    { id:'e3',  type:'yi', blank:'c_bule',   answer:'i', hint:'C je měkká → I' },
-    { id:'e4',  type:'yi', blank:'j_st',     answer:'i', hint:'J je měkká → I' },
-    { id:'e5',  type:'yi', blank:'ž_to',     answer:'i', hint:'Ž je měkká → I' },
-    { id:'e6',  type:'yi', blank:'č_ra',     answer:'i', hint:'Č je měkká → I' },
-    { id:'e7',  type:'yi', blank:'š_t',      answer:'i', hint:'Š je měkká → I' },
-    { id:'e8',  type:'yi', blank:'r_ba',     answer:'y', hint:'R je tvrdá → Y' },
-    { id:'e9',  type:'yi', blank:'k_tka',    answer:'y', hint:'K je tvrdá → Y' },
-    { id:'e10', type:'yi', blank:'h_ena',    answer:'y', hint:'H je tvrdá → Y' },
-    { id:'e11', type:'yi', blank:'d_m',      answer:'y', hint:'D je tvrdá → Y' },
-    { id:'e12', type:'yi', blank:'t_kat',    answer:'y', hint:'T je tvrdá → Y' },
-    { id:'e13', type:'yi', blank:'n_lon',    answer:'y', hint:'N je tvrdá → Y' },
-    { id:'e14', type:'yi', blank:'chod_',    answer:'y', hint:'CH je tvrdá → Y' },
-    { id:'e15', type:'yi', blank:'ž_rafa',   answer:'i', hint:'Ž je měkká → I' },
-    { id:'e16', type:'yi', blank:'h_batel',  answer:'y', hint:'H je tvrdá → Y' },
-    { id:'e17', type:'yi', blank:'k_ta',     answer:'y', hint:'K je tvrdá → Y' },
-    { id:'e18', type:'yi', blank:'č_slovce', answer:'i', hint:'Č je měkká → I' },
+    // TVRDÁ → Y (krátké)
+    { id:'e0',  type:'yi', blank:'r_ba',     answer:'y',  hint:'R je tvrdá souhláska → Y' },
+    { id:'e1',  type:'yi', blank:'k_tka',    answer:'y',  hint:'K je tvrdá souhláska → Y' },
+    { id:'e2',  type:'yi', blank:'h_ena',    answer:'y',  hint:'H je tvrdá souhláska → Y' },
+    { id:'e3',  type:'yi', blank:'ch_ba',    answer:'y',  hint:'CH je tvrdá souhláska → Y' },
+    { id:'e4',  type:'yi', blank:'t_kat',    answer:'y',  hint:'T je tvrdá souhláska → Y' },
+    { id:'e5',  type:'yi', blank:'n_lon',    answer:'y',  hint:'N je tvrdá souhláska → Y' },
+    { id:'e6',  type:'yi', blank:'chod_',    answer:'y',  hint:'CH je tvrdá souhláska → Y' },
+    // TVRDÁ → Ý (dlouhé)
+    { id:'e7',  type:'yi', blank:'d_m',      answer:'ý',  hint:'D je tvrdá souhláska → Ý' },
+    { id:'e8',  type:'yi', blank:'d_ně',     answer:'ý',  hint:'D je tvrdá souhláska → Ý' },
+    { id:'e9',  type:'yi', blank:'h_bat',    answer:'ý',  hint:'H je tvrdá souhláska → Ý' },
+    { id:'e10', type:'yi', blank:'t_den',    answer:'ý',  hint:'T je tvrdá souhláska → Ý' },
+    { id:'e11', type:'yi', blank:'k_vat',    answer:'ý',  hint:'K je tvrdá souhláska → Ý' },
+    { id:'e12', type:'yi', blank:'r_č',      answer:'ý',  hint:'R je tvrdá souhláska → Ý' },
+    // MĚKKÁ → I (krátké)
+    { id:'e13', type:'yi', blank:'š_pka',    answer:'i',  hint:'Š je měkká souhláska → I' },
+    { id:'e14', type:'yi', blank:'c_bule',   answer:'i',  hint:'C je měkká souhláska → I' },
+    { id:'e15', type:'yi', blank:'ž_to',     answer:'i',  hint:'Ž je měkká souhláska → I' },
+    { id:'e16', type:'yi', blank:'j_skra',   answer:'i',  hint:'J je měkká souhláska → I' },
+    { id:'e17', type:'yi', blank:'c_nkat',   answer:'i',  hint:'C je měkká souhláska → I' },
+    // MĚKKÁ → Í (dlouhé)
+    { id:'e18', type:'yi', blank:'č_st',     answer:'í',  hint:'Č je měkká souhláska → Í' },
+    { id:'e19', type:'yi', blank:'ř_kat',    answer:'í',  hint:'Ř je měkká souhláska → Í' },
+    { id:'e20', type:'yi', blank:'ž_la',     answer:'í',  hint:'Ž je měkká souhláska → Í' },
+    { id:'e21', type:'yi', blank:'š_t',      answer:'í',  hint:'Š je měkká souhláska → Í' },
+    { id:'e22', type:'yi', blank:'ž_zeň',    answer:'í',  hint:'Ž je měkká souhláska → Í' },
+    { id:'e23', type:'yi', blank:'c_tit',    answer:'í',  hint:'C je měkká souhláska → Í' },
+    { id:'e24', type:'yi', blank:'č_slo',    answer:'í',  hint:'Č je měkká souhláska → Í' },
   ],
+
+  // ── STŘEDNÍ: obojetné souhlásky ─────────────────
   medium: [
-    { id:'m0',  type:'yi', blank:'z_ma',     answer:'i', hint:'Z je obojetná – zima s I' },
-    { id:'m1',  type:'yi', blank:'v_tr',     answer:'i', hint:'V je obojetná – vítr s I' },
-    { id:'m2',  type:'yi', blank:'m_ška',    answer:'y', hint:'M je obojetná – myška s Y' },
-    { id:'m3',  type:'yi', blank:'l_stek',   answer:'i', hint:'L je obojetná – lístek s I' },
-    { id:'m4',  type:'yi', blank:'l_že',     answer:'y', hint:'L je obojetná – lyže s Y' },
-    { id:'m5',  type:'yi', blank:'s_r',      answer:'y', hint:'S je obojetná – sýr s Y' },
-    { id:'m6',  type:'yi', blank:'s_la',     answer:'i', hint:'S je obojetná – síla s I' },
-    { id:'m7',  type:'yi', blank:'p_vo',     answer:'i', hint:'P je obojetná – pivo s I' },
-    { id:'m8',  type:'yi', blank:'p_ramida', answer:'y', hint:'P je obojetná – pyramida s Y' },
-    { id:'m9',  type:'yi', blank:'m_nce',    answer:'i', hint:'M je obojetná – mince s I' },
-    { id:'m10', type:'yi', blank:'b_dlet',   answer:'y', hint:'B je obojetná – bydlet s Y' },
-    { id:'m11', type:'yi', blank:'b_zon',    answer:'i', hint:'B je obojetná – bizon s I' },
-    { id:'m12', type:'yi', blank:'f_zika',   answer:'y', hint:'F je obojetná – fyzika s Y' },
-    { id:'m13', type:'yi', blank:'f_la',     answer:'i', hint:'F je obojetná – fila s I' },
-    { id:'m14', type:'choice', q:'Jak se správně píše?', opts:['ryby','riby'],    answer:'ryby',  hint:'R je tvrdá → Y' },
-    { id:'m15', type:'choice', q:'Jak se správně píše?', opts:['šipka','šypka'],  answer:'šipka', hint:'Š je měkká → I' },
-    { id:'m16', type:'choice', q:'Jak se správně píše?', opts:['číst','čyst'],    answer:'číst',  hint:'Č je měkká → I' },
-    { id:'m17', type:'choice', q:'Jak se správně píše?', opts:['kytka','kitka'],  answer:'kytka', hint:'K je tvrdá → Y' },
-    { id:'m18', type:'choice', q:'Jak se správně píše?', opts:['žirafa','žyrafa'],answer:'žirafa',hint:'Ž je měkká → I' },
+    // OBOJETNÁ → Y (krátké)
+    { id:'m0',  type:'yi', blank:'m_ška',    answer:'y',  hint:'M je obojetná – myška píšeme s Y' },
+    { id:'m1',  type:'yi', blank:'l_že',     answer:'y',  hint:'L je obojetná – lyže píšeme s Y' },
+    { id:'m2',  type:'yi', blank:'p_ramida', answer:'y',  hint:'P je obojetná – pyramida píšeme s Y' },
+    { id:'m3',  type:'yi', blank:'b_dlet',   answer:'y',  hint:'B je obojetná – bydlet píšeme s Y' },
+    { id:'m4',  type:'yi', blank:'p_tel',    answer:'y',  hint:'P je obojetná – pytel píšeme s Y' },
+    { id:'m5',  type:'yi', blank:'s_n',      answer:'y',  hint:'S je obojetná – syn píšeme s Y' },
+    // OBOJETNÁ → Ý (dlouhé)
+    { id:'m6',  type:'yi', blank:'s_r',      answer:'ý',  hint:'S je obojetná – sýr píšeme s Ý' },
+    { id:'m7',  type:'yi', blank:'b_t',      answer:'ý',  hint:'B je obojetná – být píšeme s Ý (pozor: byt=pokoj!)' },
+    { id:'m8',  type:'yi', blank:'m_t',      answer:'ý',  hint:'M je obojetná – mýt píšeme s Ý' },
+    { id:'m9',  type:'yi', blank:'v_r',      answer:'ý',  hint:'V je obojetná – výr píšeme s Ý' },
+    { id:'m10', type:'yi', blank:'l_tko',    answer:'ý',  hint:'L je obojetná – lýtko píšeme s Ý' },
+    // OBOJETNÁ → I (krátké)
+    { id:'m11', type:'yi', blank:'z_ma',     answer:'i',  hint:'Z je obojetná – zima píšeme s I' },
+    { id:'m12', type:'yi', blank:'p_vo',     answer:'i',  hint:'P je obojetná – pivo píšeme s I' },
+    { id:'m13', type:'yi', blank:'m_nce',    answer:'i',  hint:'M je obojetná – mince píšeme s I' },
+    { id:'m14', type:'yi', blank:'b_zon',    answer:'i',  hint:'B je obojetná – bizon píšeme s I' },
+    { id:'m15', type:'yi', blank:'f_gura',   answer:'i',  hint:'F je obojetná – figura píšeme s I' },
+    // OBOJETNÁ → Í (dlouhé)
+    { id:'m16', type:'yi', blank:'v_tr',     answer:'í',  hint:'V je obojetná – vítr píšeme s Í' },
+    { id:'m17', type:'yi', blank:'s_la',     answer:'í',  hint:'S je obojetná – síla píšeme s Í' },
+    { id:'m18', type:'yi', blank:'l_stek',   answer:'í',  hint:'L je obojetná – lístek píšeme s Í' },
+    { id:'m19', type:'yi', blank:'m_r',      answer:'í',  hint:'M je obojetná – mír píšeme s Í' },
+    { id:'m20', type:'yi', blank:'p_sek',    answer:'í',  hint:'P je obojetná – písek píšeme s Í' },
+    { id:'m21', type:'yi', blank:'z_ma',     answer:'i',  hint:'Z je obojetná – zima píšeme s I' },
+    // choice otázky
+    { id:'m22', type:'choice', q:'Jak se správně píše?', opts:['ryby','riby'],    answer:'ryby',  hint:'R je tvrdá → Y' },
+    { id:'m23', type:'choice', q:'Jak se správně píše?', opts:['šipka','šypka'],  answer:'šipka', hint:'Š je měkká → I' },
+    { id:'m24', type:'choice', q:'Jak se správně píše?', opts:['číst','čyst'],    answer:'číst',  hint:'Č je měkká → Í' },
+    { id:'m25', type:'choice', q:'Jak se správně píše?', opts:['dým','dim'],      answer:'dým',   hint:'D je tvrdá → Ý' },
+    { id:'m26', type:'choice', q:'Jak se správně píše?', opts:['žíla','žyla'],    answer:'žíla',  hint:'Ž je měkká → Í' },
+    { id:'m27', type:'choice', q:'Jak se správně píše?', opts:['sýr','sir'],      answer:'sýr',   hint:'S je obojetná – sýr s Ý' },
+    { id:'m28', type:'choice', q:'Jak se správně píše?', opts:['vítr','vytr'],    answer:'vítr',  hint:'V je obojetná – vítr s Í' },
   ],
+
+  // ── TĚŽKÁ: mix + věty ───────────────────────────
   hard: [
-    { id:'h0',  type:'choice', q:'Jak se správně píše?', opts:['příroda','přyroda'],     answer:'příroda',  hint:'Ř je měkká → I' },
-    { id:'h1',  type:'choice', q:'Jak se správně píše?', opts:['výběr','víběr'],         answer:'výběr',    hint:'V je obojetná – výběr s Y' },
-    { id:'h2',  type:'choice', q:'Jak se správně píše?', opts:['silnice','sylnice'],     answer:'silnice',  hint:'S je obojetná – silnice s I' },
-    { id:'h3',  type:'choice', q:'Jak se správně píše?', opts:['kyslík','kislík'],       answer:'kyslík',   hint:'K je tvrdá → Y' },
-    { id:'h4',  type:'choice', q:'Jak se správně píše?', opts:['rytmus','ritmus'],       answer:'rytmus',   hint:'R je tvrdá → Y' },
-    { id:'h5',  type:'choice', q:'Jak se správně píše?', opts:['cizinec','cyzinec'],     answer:'cizinec',  hint:'C je měkká → I' },
-    { id:'h6',  type:'choice', q:'Jak se správně píše?', opts:['bylinka','bilinka'],     answer:'bylinka',  hint:'B je obojetná – bylinka s Y' },
-    { id:'h7',  type:'choice', q:'Jak se správně píše?', opts:['písek','pysek'],         answer:'písek',    hint:'P je obojetná – písek s I' },
-    { id:'h8',  type:'choice', q:'Jak se správně píše?', opts:['vysílat','visylat'],     answer:'vysílat',  hint:'V obojetná Y, S obojetná í' },
-    { id:'h9',  type:'choice', q:'Jak se správně píše?', opts:['kobylka','kobilka'],     answer:'kobylka',  hint:'B je obojetná – kobylka s Y' },
-    { id:'h10', type:'choice', q:'Jak se správně píše?', opts:['fyzika','fizika'],       answer:'fyzika',   hint:'F je obojetná – fyzika s Y' },
-    { id:'h11', type:'choice', q:'Jak se správně píše?', opts:['chybět','chibět'],       answer:'chybět',   hint:'CH je tvrdá → Y' },
-    { id:'h12', type:'choice', q:'Jak se správně píše?', opts:['být','bit'],             answer:'být',      hint:'B je obojetná – být s Y' },
-    { id:'h13', type:'choice', q:'Vyber správnou větu',  opts:['Ryby mají šupiny.','Riby mají šupiny.'],   answer:'Ryby mají šupiny.',   hint:'R je tvrdá → Y' },
-    { id:'h14', type:'choice', q:'Vyber správnou větu',  opts:['Čítal jsem knížku.','Čytal jsem knížku.'], answer:'Čítal jsem knížku.',  hint:'Č je měkká → I' },
-    { id:'h15', type:'choice', q:'Vyber správnou větu',  opts:['Šel jsem na výlet.','Šel jsem na vilet.'], answer:'Šel jsem na výlet.',  hint:'V obojetná – výlet s Y' },
-    { id:'h16', type:'choice', q:'Vyber správnou větu',  opts:['Myška má dlouhý ocas.','Miška má dlouhý ocas.'], answer:'Myška má dlouhý ocas.', hint:'M obojetná – myška s Y' },
+    { id:'h0',  type:'choice', q:'Jak se správně píše?', opts:['příroda','přyroda'],       answer:'příroda',  hint:'Ř je měkká → Í' },
+    { id:'h1',  type:'choice', q:'Jak se správně píše?', opts:['výběr','víběr'],           answer:'výběr',    hint:'V je obojetná – výběr s Ý' },
+    { id:'h2',  type:'choice', q:'Jak se správně píše?', opts:['silnice','sylnice'],       answer:'silnice',  hint:'S je obojetná – silnice s I' },
+    { id:'h3',  type:'choice', q:'Jak se správně píše?', opts:['kyslík','kislík'],         answer:'kyslík',   hint:'K je tvrdá → Y' },
+    { id:'h4',  type:'choice', q:'Jak se správně píše?', opts:['rytmus','ritmus'],         answer:'rytmus',   hint:'R je tvrdá → Y' },
+    { id:'h5',  type:'choice', q:'Jak se správně píše?', opts:['cizinec','cyzinec'],       answer:'cizinec',  hint:'C je měkká → I' },
+    { id:'h6',  type:'choice', q:'Jak se správně píše?', opts:['bylinka','bilinka'],       answer:'bylinka',  hint:'B je obojetná – bylinka s Y' },
+    { id:'h7',  type:'choice', q:'Jak se správně píše?', opts:['písek','pysek'],           answer:'písek',    hint:'P je obojetná – písek s Í' },
+    { id:'h8',  type:'choice', q:'Jak se správně píše?', opts:['dýně','diňe'],             answer:'dýně',     hint:'D je tvrdá → Ý' },
+    { id:'h9',  type:'choice', q:'Jak se správně píše?', opts:['týden','tíden'],           answer:'týden',    hint:'T je tvrdá → Ý' },
+    { id:'h10', type:'choice', q:'Jak se správně píše?', opts:['žízeň','žyzeň'],           answer:'žízeň',    hint:'Ž je měkká → Í' },
+    { id:'h11', type:'choice', q:'Jak se správně píše?', opts:['být','byt'],               answer:'být',      hint:'Být (sloveso) = Ý; byt (pokoj) = Y' },
+    { id:'h12', type:'choice', q:'Jak se správně píše?', opts:['chybět','chibět'],         answer:'chybět',   hint:'CH je tvrdá → Y' },
+    { id:'h13', type:'choice', q:'Jak se správně píše?', opts:['fyzika','fizika'],         answer:'fyzika',   hint:'F je obojetná – fyzika s Y' },
+    { id:'h14', type:'choice', q:'Jak se správně píše?', opts:['vysílat','visylat'],       answer:'vysílat',  hint:'V obojetná → Y; S obojetná → Í' },
+    { id:'h15', type:'choice', q:'Jak se správně píše?', opts:['kobylka','kobilka'],       answer:'kobylka',  hint:'B je obojetná – kobylka s Y' },
+    { id:'h16', type:'choice', q:'Vyber správnou větu',  opts:['Ryby mají šupiny.','Riby mají šupiny.'],           answer:'Ryby mají šupiny.',      hint:'R je tvrdá → Y' },
+    { id:'h17', type:'choice', q:'Vyber správnou větu',  opts:['Čítal jsem knížku.','Čytal jsem knížku.'],          answer:'Čítal jsem knížku.',     hint:'Č je měkká → Í' },
+    { id:'h18', type:'choice', q:'Vyber správnou větu',  opts:['Šel jsem na výlet.','Šel jsem na vilet.'],          answer:'Šel jsem na výlet.',     hint:'V je obojetná – výlet s Ý' },
+    { id:'h19', type:'choice', q:'Vyber správnou větu',  opts:['Myška má dlouhý ocas.','Miška má dlouhý ocas.'],    answer:'Myška má dlouhý ocas.',  hint:'M je obojetná – myška s Y' },
+    { id:'h20', type:'choice', q:'Vyber správnou větu',  opts:['Tento týden prší.','Tento tíden prší.'],            answer:'Tento týden prší.',      hint:'T je tvrdá → Ý' },
+    { id:'h21', type:'choice', q:'Vyber správnou větu',  opts:['Říkal jsem ti to.','Rykal jsem ti to.'],            answer:'Říkal jsem ti to.',      hint:'Ř je měkká → Í' },
   ]
 };
 
 // ════════════════════════════════════════
 //  ADAPTIVNÍ VÁHY
 // ════════════════════════════════════════
-function loadWeights() {
-  try { return JSON.parse(localStorage.getItem('yi_w') || '{}'); } catch { return {}; }
-}
-function saveWeights(w) {
-  try { localStorage.setItem('yi_w', JSON.stringify(w)); } catch {}
-}
-function bumpWeight(id, correct) {
-  const w = loadWeights();
-  const cur = w[id] || 1;
-  w[id] = correct ? Math.max(1, cur - 1) : Math.min(12, cur + 3);
-  saveWeights(w);
+function loadW() { try { return JSON.parse(localStorage.getItem('yi_w')||'{}'); } catch { return {}; } }
+function saveW(w){ try { localStorage.setItem('yi_w', JSON.stringify(w)); } catch {} }
+
+function bump(id, correct) {
+  const w = loadW();
+  const c = w[id] || 1;
+  w[id] = correct ? Math.max(1, c - 1) : Math.min(12, c + 3);
+  saveW(w);
 }
 
 function weightedSample(pool, n) {
-  const w = loadWeights();
-  // expand pool by weight
-  const expanded = [];
-  pool.forEach(q => {
-    const weight = w[q.id] || 1;
-    for (let i = 0; i < weight; i++) expanded.push(q);
-  });
-  // Fisher-Yates shuffle
-  for (let i = expanded.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [expanded[i], expanded[j]] = [expanded[j], expanded[i]];
+  const w = loadW();
+  const exp = [];
+  pool.forEach(q => { const wt = w[q.id]||1; for(let i=0;i<wt;i++) exp.push(q); });
+  for (let i = exp.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [exp[i],exp[j]] = [exp[j],exp[i]];
   }
-  // pick unique
-  const seen = new Set(), result = [];
-  for (const q of expanded) {
-    if (!seen.has(q.id)) { seen.add(q.id); result.push(q); if (result.length >= n) break; }
-  }
-  // fallback fill if pool < n
-  for (const q of pool) {
-    if (result.length >= n) break;
-    if (!seen.has(q.id)) { seen.add(q.id); result.push(q); }
-  }
-  return result;
+  const seen = new Set(), out = [];
+  for (const q of exp) { if(!seen.has(q.id)){seen.add(q.id);out.push(q);if(out.length>=n)break;} }
+  for (const q of pool){ if(out.length>=n)break; if(!seen.has(q.id)){seen.add(q.id);out.push(q);} }
+  return out;
 }
 
 // ════════════════════════════════════════
-//  STATE
+//  STAV HRY
 // ════════════════════════════════════════
-const TOTAL_Q   = 10;
-const BASE_PTS  = 10;
-const STR_PTS   = 5;
-const Q_TIME    = 10; // seconds per question
+const TOTAL  = 10;
+const Q_SECS = 10;
 
 let G = {
-  diff: 'easy',
-  questions: [],
-  qi: 0,          // current question index
-  score: 0,
-  streak: 0,
-  maxStreak: 0,
-  correct: 0,
-  answered: false,
-  tStart: 0,
-  timerRaf: null,
-  scoreSaved: false,
+  diff:'easy', questions:[], qi:0,
+  score:0, streak:0, maxStreak:0, correct:0,
+  answered:false, tStart:0, raf:null, scoreSaved:false
 };
 
 // ════════════════════════════════════════
 //  WELCOME
 // ════════════════════════════════════════
 function pickDiff(btn) {
-  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   G.diff = btn.dataset.diff;
 }
 
 function startGame() {
-  G.questions  = weightedSample(BANK[G.diff], TOTAL_Q);
-  G.qi         = 0;
-  G.score      = 0;
-  G.streak     = 0;
-  G.maxStreak  = 0;
-  G.correct    = 0;
-  G.answered   = false;
-  G.scoreSaved = false;
-  go('game');
-  showQ();
+  G.questions  = weightedSample(BANK[G.diff], TOTAL);
+  G.qi=G.score=G.streak=G.maxStreak=G.correct=0;
+  G.answered=G.scoreSaved=false;
+  go('game'); showQ();
 }
 
 // ════════════════════════════════════════
-//  GAME
+//  OTÁZKA
 // ════════════════════════════════════════
 function showQ() {
   const q = G.questions[G.qi];
   G.answered = false;
   G.tStart   = Date.now();
 
-  // header
-  $('hdr-q').textContent   = `${G.qi + 1}/${G.questions.length}`;
+  $('hdr-q').textContent   = `${G.qi+1}/${G.questions.length}`;
   $('hdr-s').textContent   = G.score;
   $('hdr-str').textContent = `🔥${G.streak}`;
-  $('prog').style.width    = `${(G.qi / G.questions.length) * 100}%`;
+  $('prog').style.width    = `${G.qi/G.questions.length*100}%`;
+  $('fb').textContent      = '';
+  $('fb').className        = 'feedback';
+  $('str-pill').className  = 'streak-pill';
 
-  // reset feedback
-  $('fb').textContent = '';
-  $('fb').className   = 'feedback';
-  $('str-pill').className = 'streak-pill';
-
-  const yiRow  = $('yi-row');
-  const chGrid = $('ch-grid');
-
-  $('btn-y').className = 'yi-btn'; $('btn-y').disabled = false;
-  $('btn-i').className = 'yi-btn'; $('btn-i').disabled = false;
+  document.querySelectorAll('.yi-btn').forEach(b=>{ b.className='yi-btn'; b.disabled=false; });
 
   if (q.type === 'yi') {
-    $('q-badge').textContent = 'Doplň Y nebo I';
+    $('q-badge').textContent = 'Doplň správné písmeno';
     $('q-word').innerHTML    = q.blank.replace(/_/g, '<span class="gap">_</span>');
     $('q-sub').textContent   = '';
-    yiRow.style.display  = 'flex';
-    chGrid.style.display = 'none';
+    $('yi-row').style.display  = 'grid';
+    $('ch-grid').style.display = 'none';
   } else {
-    $('q-badge').textContent = q.q;
-    $('q-word').textContent  = '';
-    $('q-sub').textContent   = '';
-    yiRow.style.display  = 'none';
-    chGrid.style.display = 'grid';
-    chGrid.className     = 'choice-grid ' + (q.opts.length > 2 ? 'cols1' : 'cols2');
-    chGrid.innerHTML     = '';
-    [...q.opts].sort(() => Math.random() - .5).forEach(o => {
-      const b = document.createElement('button');
-      b.className = 'ch-btn'; b.textContent = o;
-      b.onclick = () => pickChoice(o);
-      chGrid.appendChild(b);
+    $('q-badge').textContent   = q.q;
+    $('q-word').textContent    = '';
+    $('q-sub').textContent     = '';
+    $('yi-row').style.display  = 'none';
+    $('ch-grid').style.display = 'grid';
+    $('ch-grid').className     = 'choice-grid '+(q.opts.length>2?'cols1':'cols2');
+    $('ch-grid').innerHTML     = '';
+    [...q.opts].sort(()=>Math.random()-.5).forEach(o=>{
+      const b=document.createElement('button');
+      b.className='ch-btn'; b.textContent=o;
+      b.onclick=()=>pickChoice(o);
+      $('ch-grid').appendChild(b);
     });
   }
 
-  // card animation
-  const card = $('q-card');
-  card.style.animation = 'none';
-  card.offsetHeight;
-  card.style.animation = 'slideUp .25s ease both';
-
+  const card=$('q-card');
+  card.style.animation='none'; card.offsetHeight;
+  card.style.animation='slideUp .25s ease both';
   startTimer();
 }
 
 // ── TIMER ──
 function startTimer() {
-  cancelTimer();
+  stopTimer();
   const fill = $('timer-fill');
-  fill.style.width = '100%';
-  fill.style.background = '#43e97b';
-
+  fill.style.width='100%'; fill.style.background='#43e97b';
   function tick() {
-    const pct = Math.max(0, 1 - (Date.now() - G.tStart) / (Q_TIME * 1000));
-    fill.style.width = (pct * 100) + '%';
-    fill.style.background = pct > .5 ? '#43e97b' : pct > .25 ? '#ffd43b' : '#e74c3c';
-    if (pct <= 0 && !G.answered) { timeUp(); return; }
-    if (!G.answered) G.timerRaf = requestAnimationFrame(tick);
+    const pct = Math.max(0, 1-(Date.now()-G.tStart)/(Q_SECS*1000));
+    fill.style.width = (pct*100)+'%';
+    fill.style.background = pct>.5?'#43e97b':pct>.25?'#ffd43b':'#e74c3c';
+    if (pct<=0 && !G.answered) { timeUp(); return; }
+    if (!G.answered) G.raf = requestAnimationFrame(tick);
   }
-  G.timerRaf = requestAnimationFrame(tick);
+  G.raf = requestAnimationFrame(tick);
 }
-
-function cancelTimer() {
-  if (G.timerRaf) { cancelAnimationFrame(G.timerRaf); G.timerRaf = null; }
-}
+function stopTimer() { if(G.raf){cancelAnimationFrame(G.raf);G.raf=null;} }
 
 function timeUp() {
-  if (G.answered) return;
-  G.answered = true;
-  cancelTimer();
-  $('btn-y').disabled = true;
-  $('btn-i').disabled = true;
-  document.querySelectorAll('.ch-btn').forEach(b => b.disabled = true);
-  const q = G.questions[G.qi];
-  applyWrong(q);
+  if(G.answered) return;
+  G.answered=true; stopTimer();
+  document.querySelectorAll('.yi-btn,.ch-btn').forEach(b=>b.disabled=true);
+  wrong(G.questions[G.qi]);
   setTimeout(advance, 1800);
 }
 
-// ── ANSWERS ──
-function pick(letter) {
-  if (G.answered) return;
-  G.answered = true;
-  cancelTimer();
-  const q = G.questions[G.qi];
-  const ok = letter === q.answer;
-  $('btn-y').disabled = true;
-  $('btn-i').disabled = true;
-  $(letter === 'y' ? 'btn-y' : 'btn-i').classList.add(ok ? 'ok' : 'bad');
-  if (!ok) $(letter === 'y' ? 'btn-i' : 'btn-y').classList.add('ok');
-  ok ? applyRight(q) : applyWrong(q);
-  setTimeout(advance, 1600);
+// ── ODPOVĚDI ──
+function pick(val) {
+  if(G.answered) return;
+  G.answered=true; stopTimer();
+  const q=G.questions[G.qi];
+  const ok=val===q.answer;
+  document.querySelectorAll('.yi-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===q.answer) b.classList.add('ok');
+    else if(b.dataset.val===val && !ok) b.classList.add('bad');
+  });
+  ok?right(q):wrong(q);
+  setTimeout(advance,1600);
 }
 
 function pickChoice(val) {
-  if (G.answered) return;
-  G.answered = true;
-  cancelTimer();
-  const q = G.questions[G.qi];
-  const ok = val === q.answer;
-  document.querySelectorAll('.ch-btn').forEach(b => {
-    b.disabled = true;
-    if (b.textContent === q.answer) b.classList.add('ok');
-    else if (b.textContent === val && !ok) b.classList.add('bad');
+  if(G.answered) return;
+  G.answered=true; stopTimer();
+  const q=G.questions[G.qi];
+  const ok=val===q.answer;
+  document.querySelectorAll('.ch-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.answer) b.classList.add('ok');
+    else if(b.textContent===val && !ok) b.classList.add('bad');
   });
-  ok ? applyRight(q) : applyWrong(q);
-  setTimeout(advance, 1600);
+  ok?right(q):wrong(q);
+  setTimeout(advance,1600);
 }
 
-function applyRight(q) {
-  const elapsed = (Date.now() - G.tStart) / 1000;
-  const fast = elapsed < 3, medium = elapsed < 6;
-  let pts = BASE_PTS + (G.streak > 0 ? STR_PTS : 0) + (fast ? 5 : medium ? 2 : 0);
+function right(q) {
+  const secs=(Date.now()-G.tStart)/1000;
+  const bonus=secs<3?5:secs<6?2:0;
+  const streakBonus=G.streak>0?5:0;
+  G.score+=10+bonus+streakBonus;
+  G.streak++; G.correct++;
+  G.maxStreak=Math.max(G.maxStreak,G.streak);
+  bump(q.id, true);
 
-  G.score    += pts;
-  G.streak++;
-  G.correct++;
-  G.maxStreak = Math.max(G.maxStreak, G.streak);
-  bumpWeight(q.id, true);
-
-  const msgs = ['Správně! 🌟','Výborně! 🎉','Přesně tak! ✅','Skvělé! 🚀','Bravo! 🌈'];
-  $('fb').textContent = msgs[G.qi % msgs.length] + (fast ? ' ⚡+5' : medium ? ' +2' : '');
-  $('fb').className   = 'feedback ok';
-
-  if (G.streak >= 3) {
-    $('str-pill').textContent = `🔥 Série ${G.streak}× ! Bonus +${STR_PTS}b`;
-    $('str-pill').className   = 'streak-pill show';
-  }
-  $('hdr-s').textContent   = G.score;
-  $('hdr-str').textContent = `🔥${G.streak}`;
-  playTone('ok');
+  const msgs=['Správně! 🌟','Výborně! 🎉','Přesně tak! ✅','Skvělé! 🚀','Bravo! 🌈'];
+  $('fb').textContent=msgs[G.qi%msgs.length]+(bonus?` ⚡+${bonus}`:'');
+  $('fb').className='feedback ok';
+  if(G.streak>=3){ $('str-pill').textContent=`🔥 Série ${G.streak}× ! +5 bodů navíc`; $('str-pill').className='streak-pill show'; }
+  $('hdr-s').textContent=G.score; $('hdr-str').textContent=`🔥${G.streak}`;
+  tone('ok');
 }
 
-function applyWrong(q) {
-  G.streak = 0;
-  bumpWeight(q.id, false);
-  const ans = q.type === 'yi' ? q.answer.toUpperCase() : q.answer;
-  $('fb').textContent = `✗ Správně: „${ans}" – ${q.hint}`;
-  $('fb').className   = 'feedback bad';
-  $('hdr-str').textContent = '🔥0';
-  playTone('bad');
+function wrong(q) {
+  G.streak=0;
+  bump(q.id, false);
+  const ans=q.answer.toUpperCase();
+  $('fb').textContent=`✗ Správně: „${ans}" – ${q.hint}`;
+  $('fb').className='feedback bad';
+  $('hdr-str').textContent='🔥0';
+  tone('bad');
 }
 
-function advance() {
-  G.qi++;
-  G.qi >= G.questions.length ? endGame() : showQ();
-}
+function advance() { G.qi++; G.qi>=G.questions.length?endGame():showQ(); }
 
 // ════════════════════════════════════════
-//  END GAME
+//  VÝSLEDKY
 // ════════════════════════════════════════
 function endGame() {
-  cancelTimer();
-  const pct = G.correct / G.questions.length;
+  stopTimer();
+  const pct=G.correct/G.questions.length;
+  const [emoji,title]=pct>=.9?['🏆','Perfektní!']:pct>=.7?['🌟','Skvělé!']:pct>=.5?['👍','Dobrá práce!']:['📚','Trénuj dál!'];
 
-  const [emoji, title] =
-    pct >= .9 ? ['🏆','Perfektní!']     :
-    pct >= .7 ? ['🌟','Skvělé!']        :
-    pct >= .5 ? ['👍','Dobrá práce!']   :
-               ['📚','Trénuj dál!'];
-
-  $('res-emoji').textContent = emoji;
-  $('res-title').textContent = title;
-  $('res-stars').textContent = pct >= .9 ? '⭐⭐⭐' : pct >= .6 ? '⭐⭐' : '⭐';
-  $('res-pts').textContent   = '0';
-  $('res-ok').textContent    = `${G.correct}/${G.questions.length}`;
-  $('res-str').textContent   = G.maxStreak;
-  $('res-name').value        = '';
-  $('btn-save').disabled     = false;
-  $('btn-save').textContent  = '🏆 Uložit do tabulky';
-  G.scoreSaved = false;
+  $('res-emoji').textContent=emoji;
+  $('res-title').textContent=title;
+  $('res-stars').textContent=pct>=.9?'⭐⭐⭐':pct>=.6?'⭐⭐':'⭐';
+  $('res-ok').textContent=`${G.correct}/${G.questions.length}`;
+  $('res-str').textContent=G.maxStreak;
+  $('res-pts').textContent='0';
+  $('res-name').value='';
+  $('btn-save').disabled=false;
+  $('btn-save').textContent='🏆 Uložit do tabulky';
+  G.scoreSaved=false;
 
   go('result');
-  countUp($('res-pts'), 0, G.score, 900);
-  if (pct >= .7) setTimeout(launchConfetti, 300);
+  countUp($('res-pts'),0,G.score,900);
+  if(pct>=.7) setTimeout(confetti,350);
 }
 
-// ── animované počítadlo ──
-function countUp(el, from, to, ms) {
-  const t0 = performance.now();
-  function step(now) {
-    const p = Math.min(1, (now - t0) / ms);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(from + (to - from) * ease);
-    if (p < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
+function countUp(el,from,to,ms) {
+  const t0=performance.now();
+  function s(now){ const p=Math.min(1,(now-t0)/ms); const e=1-Math.pow(1-p,3); el.textContent=Math.round(from+(to-from)*e); if(p<1)requestAnimationFrame(s); }
+  requestAnimationFrame(s);
 }
 
 // ════════════════════════════════════════
-//  LEADERBOARD
+//  TABULKA
 // ════════════════════════════════════════
-function getLb() {
-  try { return JSON.parse(localStorage.getItem('yi_lb') || '[]'); } catch { return []; }
-}
-function setLb(lb) {
-  try { localStorage.setItem('yi_lb', JSON.stringify(lb.slice(0, 50))); } catch {}
-}
+function getLb(){ try{return JSON.parse(localStorage.getItem('yi_lb')||'[]');}catch{return[];} }
+function setLb(lb){ try{localStorage.setItem('yi_lb',JSON.stringify(lb.slice(0,50)));}catch{} }
 
 function saveAndShowLb() {
-  if (G.scoreSaved) { goLb(); return; }
-  const name = $('res-name').value.trim() || 'Hráč';
-  const lb = getLb();
-  lb.push({
-    name,
-    score:  G.score,
-    correct: G.correct,
-    total:   G.questions.length,
-    diff:    G.diff,
-    date:    new Date().toLocaleDateString('cs-CZ'),
-  });
-  lb.sort((a, b) => b.score - a.score);
+  if(G.scoreSaved){ goLb(); return; }
+  const name=$('res-name').value.trim()||'Hráč';
+  const lb=getLb();
+  lb.push({ name, score:G.score, correct:G.correct, total:G.questions.length,
+             diff:G.diff, date:new Date().toLocaleDateString('cs-CZ') });
+  lb.sort((a,b)=>b.score-a.score);
   setLb(lb);
-  G.scoreSaved = true;
-  $('btn-save').textContent = '✓ Uloženo!';
-  $('btn-save').disabled = true;
-  setTimeout(goLb, 600);
+  G.scoreSaved=true;
+  $('btn-save').textContent='✓ Uloženo!';
+  $('btn-save').disabled=true;
+  setTimeout(goLb,600);
 }
 
 function renderLb() {
-  const lb = getLb();
-  const list = $('lb-list');
-  const diffLabel = { easy:'🐣 Lehká', medium:'🦊 Střední', hard:'🦅 Těžká' };
-
-  if (!lb.length) {
-    list.innerHTML = '<div class="lb-empty">Zatím žádné výsledky 🙈<br>Zahraj si první hru!</div>';
-    return;
-  }
-
-  // rank current session (if saved)
-  const myScore = G.scoreSaved ? G.score : -1;
-
-  list.innerHTML = lb.slice(0, 10).map((e, i) => {
-    const cls   = ['r1','r2','r3'][i] ?? 'rx';
-    const medal = ['🥇','🥈','🥉'][i] ?? `${i + 1}.`;
-    const mine  = G.scoreSaved && e.score === myScore ? ' 👈' : '';
+  const lb=getLb();
+  const diffs={easy:'🐣 Lehká',medium:'🦊 Střední',hard:'🦅 Těžká'};
+  if(!lb.length){ $('lb-list').innerHTML='<div class="lb-empty">Zatím žádné výsledky 🙈<br>Zahraj si první hru!</div>'; return; }
+  $('lb-list').innerHTML=lb.slice(0,10).map((e,i)=>{
+    const cls=['r1','r2','r3'][i]??'rx';
+    const medal=['🥇','🥈','🥉'][i]??`${i+1}.`;
+    const mine=G.scoreSaved&&e.score===G.score?' 👈':'';
     return `<div class="lb-row ${cls}">
       <div class="lb-medal">${medal}</div>
-      <div class="lb-info">
-        <div class="lb-name">${esc(e.name)}${mine}</div>
-        <div class="lb-meta">${diffLabel[e.diff]||''} · ${e.correct}/${e.total} · ${e.date}</div>
-      </div>
-      <div class="lb-pts">${e.score} b</div>
-    </div>`;
+      <div class="lb-info"><div class="lb-name">${esc(e.name)}${mine}</div>
+      <div class="lb-meta">${diffs[e.diff]||''} · ${e.correct}/${e.total} · ${e.date}</div></div>
+      <div class="lb-pts">${e.score} b</div></div>`;
   }).join('');
 }
-
-function goLb()  { renderLb(); go('leaderboard'); }
-function goHome(){ go('welcome'); }
 
 // ════════════════════════════════════════
 //  UTILS
 // ════════════════════════════════════════
-function go(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  $('screen-' + id).classList.add('active');
-  $('screen-' + id).scrollTop = 0;
-}
-function $(id) { return document.getElementById(id); }
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function go(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); $('screen-'+id).classList.add('active'); $('screen-'+id).scrollTop=0; }
+function goLb()  { renderLb(); go('leaderboard'); }
+function goHome(){ go('welcome'); }
+function $(id)   { return document.getElementById(id); }
+function esc(s)  { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ── CONFETTI ──
-function launchConfetti() {
-  const cols = ['#5b52e8','#ff6584','#ffd43b','#27ae60','#e67e22','#74c0fc'];
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.cssText = `
-      left:${Math.random()*100}vw;
-      background:${cols[i % cols.length]};
-      animation-duration:${1.4 + Math.random()*2}s;
-      animation-delay:${Math.random()*.8}s;
-      transform:rotate(${Math.random()*360}deg);
-      border-radius:${Math.random() > .5 ? '50%' : '2px'};
-    `;
+function confetti(){
+  const cols=['#5b52e8','#ff6584','#ffd43b','#27ae60','#e67e22','#74c0fc'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%cols.length]};animation-duration:${1.4+Math.random()*2}s;animation-delay:${Math.random()*.8}s;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>.5?'50%':'2px'}`;
     document.body.appendChild(el);
-    el.addEventListener('animationend', () => el.remove());
+    el.addEventListener('animationend',()=>el.remove());
   }
 }
 
-// ── ZVUKY ──
-let ctx;
-function playTone(type) {
-  try {
-    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const g   = ctx.createGain();
-    osc.connect(g); g.connect(ctx.destination);
-    g.gain.setValueAtTime(.18, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .45);
-    if (type === 'ok') {
-      [523, 659, 784].forEach((f, i) => osc.frequency.setValueAtTime(f, ctx.currentTime + i * .1));
-    } else {
-      osc.frequency.setValueAtTime(280, ctx.currentTime);
-      osc.frequency.setValueAtTime(180, ctx.currentTime + .15);
-    }
-    osc.start(); osc.stop(ctx.currentTime + .45);
-  } catch {}
+let actx;
+function tone(type){
+  try{
+    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(),g=actx.createGain();
+    o.connect(g);g.connect(actx.destination);
+    g.gain.setValueAtTime(.16,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.45);
+    if(type==='ok'){[523,659,784].forEach((f,i)=>o.frequency.setValueAtTime(f,actx.currentTime+i*.1));}
+    else{o.frequency.setValueAtTime(280,actx.currentTime);o.frequency.setValueAtTime(180,actx.currentTime+.15);}
+    o.start();o.stop(actx.currentTime+.45);
+  }catch{}
 }
 </script>
 </body>
