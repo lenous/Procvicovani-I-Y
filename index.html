@@ -269,7 +269,7 @@
   <div class="page">
     <div class="logo">🦉</div>
     <div class="welcome-title">Y nebo I?</div>
-    <div class="welcome-sub">Procvičování pro 2. a 3. třídu</div>
+    <div class="welcome-sub">Procvičování Y/I/Ý/Í z více než 700 slov</div>
 
     <div class="card" style="display:flex;flex-direction:column;gap:14px;">
       <div style="font-weight:800;color:#555;font-size:.9rem;">Vyber obtížnost:</div>
@@ -353,12 +353,13 @@
 <div id="screen-leaderboard" class="screen">
   <div class="page">
     <div class="lb-title">🏆 Nejlepší hráči</div>
-    <div class="lb-sub">Top 10 výsledků</div>
+    <div class="lb-sub">Top 10 výsledků v tomto prohlížeči</div>
     <div class="lb-list" id="lb-list"></div>
     <button class="btn btn-purple" onclick="goHome()">← Zpět na úvod</button>
   </div>
 </div>
 
+<script src="words.js"></script>
 <script>
 // ════════════════════════════════════════════════════
 //  BANKA OTÁZEK
@@ -366,7 +367,7 @@
 //  type 'yi'     → 4 tlačítka (Y / I / Ý / Í)
 //  type 'choice' → výběr ze slov
 // ════════════════════════════════════════════════════
-const BANK = {
+const LEGACY_BANK = {
 
   // ── LEHKÁ: tvrdé a měkké souhlásky ──────────────
   easy: [
@@ -466,6 +467,8 @@ const BANK = {
   ]
 };
 
+const BANK = createQuestionBank();
+
 // ════════════════════════════════════════
 //  ADAPTIVNÍ VÁHY
 // ════════════════════════════════════════
@@ -496,7 +499,7 @@ function weightedSample(pool, n) {
 // ════════════════════════════════════════
 //  STAV HRY
 // ════════════════════════════════════════
-const TOTAL  = 10;
+const TOTAL  = 15;
 const Q_SECS = 10;
 
 let G = {
@@ -640,7 +643,7 @@ function right(q) {
 function wrong(q) {
   G.streak=0;
   bump(q.id, false);
-  const ans=q.answer.toUpperCase();
+  const ans=q.word || q.answer.toUpperCase();
   $('fb').textContent=`✗ Správně: „${ans}" – ${q.hint}`;
   $('fb').className='feedback bad';
   $('hdr-str').textContent='🔥0';
